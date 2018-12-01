@@ -17,6 +17,16 @@
         android:layout_height="100dp"
         android:src="@drawable/py"
         />
+    <TextView
+        android:id="@+id/registerIcon"
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:text="REGISTER"
+        android:gravity="center"
+        android:textSize="30dp"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:visibility="gone"/>
 <!--Login Layout-->
     <LinearLayout
         android:id="@+id/loginLayout"
@@ -79,16 +89,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/radius_drawable_bg"
         android:visibility="gone"
         >
-
+        <!--android:visibility="gone"-->
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/radius_drawable_bg"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical">
 
             <EditText
@@ -97,6 +107,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:background="@null"
+                android:padding="8dp"
                 android:inputType="textPersonName"
                 android:hint="用户名"/>
 
@@ -106,6 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/radius_drawable_bg"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical">
 
             <EditText
@@ -114,6 +127,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:background="@null"
+                android:padding="8dp"
                 android:inputType="textPassword"
                 android:hint="密码"/>
 
@@ -123,6 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@drawable/radius_drawable_bg"
+            android:layout_marginBottom="10dp"
             android:gravity="center_vertical">
 
             <EditText
@@ -131,6 +147,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:background="@null"
+                android:padding="8dp"
                 android:inputType="phone"
                 android:hint="手机号"/>
 
