@@ -2,8 +2,11 @@ package com.example.colin.myapplication;
 
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     Button submitButton;
     TextView swapText;
     Boolean isLogin = true;
+    EditText registerName = null;
+    EditText registerPassword = null;
+    EditText registerPhone = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +45,83 @@ public class MainActivity extends AppCompatActivity {
         registerLayout = findViewById(R.id.registerLayout);
         submitButton = findViewById(R.id.Button);
         swapText = findViewById(R.id.swap);
+        registerName = findViewById(R.id.registerName);
+        registerPassword = findViewById(R.id.registerPassword);
+        registerPhone = findViewById(R.id.registerPhone);
         //设置登录&注册页面切换按钮点击事件
         swapText.setOnClickListener(new swapOnClickListener());
         //登录&注册 按钮事件
         submitButton.setOnClickListener(new submitOnClickListener());
+        //注册验证
+        final TextInputLayout registerNameLayout = findViewById(R.id.registerNameLayout);
+        registerName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length()==0){
+                    registerNameLayout.setErrorEnabled(true);
+                    registerNameLayout.setError("用户名不能为空");
+                }else{
+                    registerNameLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        final TextInputLayout registerPasswordLayout = findViewById(R.id.registerPasswordLayout);
+        registerPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() < 6){
+                    registerPasswordLayout.setErrorEnabled(true);
+                    registerPasswordLayout.setError("密码长度不能小于6");
+
+                }else{
+                    registerPasswordLayout.setErrorEnabled(false);
+//                    registerPasswordLayout.setError(null);//输入框下会有一行空位不好看
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        final TextInputLayout registerPhoneLayout = findViewById(R.id.registerPhoneLayout);
+        registerPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() != 11){
+                    registerPhoneLayout.setErrorEnabled(true);
+                    registerPhoneLayout.setError("电话号码应为11位");
+                }else{
+                    registerPhoneLayout.setErrorEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
     }
 
     //登录&注册切换方法
@@ -84,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("按钮","登录点击");
                 //Verification
                 EditText username = findViewById(R.id.name);
+                username.setError("lalala");
                 final EditText password = findViewById(R.id.password);
                 //登录信息存入JSON
                 JSONObject user = new JSONObject();
@@ -137,23 +217,23 @@ public class MainActivity extends AppCompatActivity {
 
             }else{
                 Log.i("按钮","注册点击");
-                //TODO register
-                final EditText regName = findViewById(R.id.registerName);
-                final EditText regPassword = findViewById(R.id.registerPassword);
-                final EditText regPhone = findViewById(R.id.registerPhone);
+                // register
+                registerName = findViewById(R.id.registerName);
+                registerPassword = findViewById(R.id.registerPassword);
+                registerPhone = findViewById(R.id.registerPhone);
                 JSONObject newUser = new JSONObject();
                 //注册信息存入JSON
                 try {
                     newUser.put("requestCode",2);//requestCode 2 注册
-                    newUser.put("username",regName.getText().toString());
-                    newUser.put("password",regPassword.getText().toString());
-                    newUser.put("phone",regPhone.getText().toString());
+                    newUser.put("username",registerName.getText().toString());
+                    newUser.put("password",registerPassword.getText().toString());
+                    newUser.put("phone",registerPhone.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i("注册","注册信息存入JSON异常");
                 }
                 Log.i("注册","准备发送注册信息："+newUser.toString());
-                //TODO 注册上传
+                // 注册上传
                 //发送服务器
                 //http请求
                 myHttp myHttp = new myHttp();
@@ -180,10 +260,10 @@ public class MainActivity extends AppCompatActivity {
                                 if (legalUser){
                                     toLoginLayout();
                                     EditText username = findViewById(R.id.name);
-                                    username.setText(regName.getText());
-                                    regName.setText("");
-                                    regPassword.setText("");
-                                    regPhone.setText("");
+                                    username.setText(registerName.getText());
+                                    registerName.setText("");
+                                    registerPassword.setText("");
+                                    registerPhone.setText("");
                                     Toast.makeText(MainActivity.this,"Register Success",Toast.LENGTH_SHORT).show();
                                 }else{
                                     Toast.makeText(MainActivity.this,"Register fail",Toast.LENGTH_SHORT).show();
