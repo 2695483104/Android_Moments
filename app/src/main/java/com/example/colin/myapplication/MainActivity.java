@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,9 +43,6 @@ public class MainActivity extends AppCompatActivity {
         swapText.setOnClickListener(new swapOnClickListener());
         //登录&注册 按钮事件
         submitButton.setOnClickListener(new submitOnClickListener());
-
-
-
     }
 
     //登录&注册切换方法
@@ -78,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
     class submitOnClickListener implements  View.OnClickListener{
         @Override
         public void onClick(View v){
-//            Toast.makeText(MainActivity.this,"click",Toast.LENGTH_SHORT).show();
             if(isLogin){
+                Log.i("按钮","登录点击");
                 //Verification
                 EditText username = findViewById(R.id.name);
                 final EditText password = findViewById(R.id.password);
@@ -90,16 +86,15 @@ public class MainActivity extends AppCompatActivity {
                     user.put("password",password.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.i("登录","登录信息存入JSON异常");
                 }
-//                //TODO 删除Toast
-                System.out.print("准备发送");
-                System.out.print(user.toString());
+
+                Log.i("登录","准备发送登录信息："+user.toString());
                 //发送服务器
                 //http请求
                 myHttp myHttp = new myHttp();
                 //handler方法
                 Handler loginHandler = new Handler(new Handler.Callback() {
-
                     @Override
                     public boolean handleMessage(Message msg) {
 //                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
@@ -108,15 +103,14 @@ public class MainActivity extends AppCompatActivity {
                                 JSONObject response = (JSONObject) msg.obj;
                                 // 在这里进行UI操作，将结果显示到界面上
                                 Log.i("主线程hander收到的数据",response.toString());
-                                //用户是否合法
+                                //用户合法性
                                 Boolean legalUser = false;
-                                Log.i("主线程resultJSON",response.toString());
                                 //获取JSONObject中用户合法性数据
                                 try {
                                     legalUser = response.getBoolean("legalUser");
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Toast.makeText(MainActivity.this,"JSONException",Toast.LENGTH_SHORT).show();
+                                    Log.i("登录Handle","JSONObject.getBoolean获取用户合法性异常");
                                 }
                                 //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
@@ -134,7 +128,9 @@ public class MainActivity extends AppCompatActivity {
                 myHttp.Post(user,loginHandler);
 
             }else{
+                Log.i("按钮","注册点击");
                 //TODO register
+//                final
             }
         }
     }
