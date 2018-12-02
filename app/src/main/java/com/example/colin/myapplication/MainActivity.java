@@ -51,24 +51,30 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if(isLogin){
                 //is login layout now, exchange to register layout
-                icon.setVisibility(View.GONE);
-                registerIcon.setVisibility(View.VISIBLE);
-                loginLayout.setVisibility(View.GONE);
-                registerLayout.setVisibility(View.VISIBLE);
-                submitButton.setText("REGISTER");
-                swapText.setText("LOGIN");
-                isLogin = false;
+                toRegisterLayout();
             }else{
                 //is register layout now, exchange to login layout
-                icon.setVisibility(View.VISIBLE);
-                registerIcon.setVisibility(View.GONE);
-                loginLayout.setVisibility(View.VISIBLE);
-                registerLayout.setVisibility(View.GONE);
-                submitButton.setText("LOGIN");
-                swapText.setText("REGISTER");
-                isLogin = true;
+                toLoginLayout();
             }
         }
+    }
+    public void toLoginLayout(){
+        icon.setVisibility(View.VISIBLE);
+        registerIcon.setVisibility(View.GONE);
+        loginLayout.setVisibility(View.VISIBLE);
+        registerLayout.setVisibility(View.GONE);
+        submitButton.setText("LOGIN");
+        swapText.setText("REGISTER");
+        isLogin = true;
+    }
+    public void toRegisterLayout(){
+        icon.setVisibility(View.GONE);
+        registerIcon.setVisibility(View.VISIBLE);
+        loginLayout.setVisibility(View.GONE);
+        registerLayout.setVisibility(View.VISIBLE);
+        submitButton.setText("REGISTER");
+        swapText.setText("LOGIN");
+        isLogin = false;
     }
     //登录注册实现
     class submitOnClickListener implements  View.OnClickListener{
@@ -82,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 //登录信息存入JSON
                 JSONObject user = new JSONObject();
                 try {
+                    user.put("requestCode",1);//requestCode 1 登录验证
                     user.put("username", username.getText().toString() );
                     user.put("password",password.getText().toString());
                 } catch (JSONException e) {
@@ -115,10 +122,11 @@ public class MainActivity extends AppCompatActivity {
                                 //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
                                     //TODO 跳转朋友圈界面
+                                    password.setText("");
                                     Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
                                 }else{
-                                    Toast.makeText(MainActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                                     password.setText("");
+                                    Toast.makeText(MainActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                                 }
                         }
                         return false;
@@ -130,7 +138,62 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 Log.i("按钮","注册点击");
                 //TODO register
-//                final
+                final EditText regName = findViewById(R.id.registerName);
+                final EditText regPassword = findViewById(R.id.registerPassword);
+                final EditText regPhone = findViewById(R.id.registerPhone);
+                JSONObject newUser = new JSONObject();
+                //注册信息存入JSON
+                try {
+                    newUser.put("requestCode",2);//requestCode 2 注册
+                    newUser.put("username",regName.getText().toString());
+                    newUser.put("password",regPassword.getText().toString());
+                    newUser.put("phone",regPhone.getText().toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.i("注册","注册信息存入JSON异常");
+                }
+                Log.i("注册","准备发送注册信息："+newUser.toString());
+                //TODO 注册上传
+                //发送服务器
+                //http请求
+                myHttp myHttp = new myHttp();
+                //handler方法
+                Handler registerHandler = new Handler(new Handler.Callback() {
+                    @Override
+                    public boolean handleMessage(Message msg) {
+//                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
+                        switch(msg.what){
+                            case 1:
+                                JSONObject response = (JSONObject) msg.obj;
+                                // 在这里进行UI操作，将结果显示到界面上
+                                Log.i("主线程hander收到的数据",response.toString());
+                                //注册成功？
+                                Boolean legalUser = false;
+                                //获取JSONObject中用户合法性数据
+                                try {
+                                    legalUser = response.getBoolean("registerResult");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.i("注册Handle","JSONObject.getBoolean获取注册信息异常");
+                                }
+                                //注册成功提并转登录页面 失败提示
+                                if (legalUser){
+                                    toLoginLayout();
+                                    EditText username = findViewById(R.id.name);
+                                    username.setText(regName.getText());
+                                    regName.setText("");
+                                    regPassword.setText("");
+                                    regPhone.setText("");
+                                    Toast.makeText(MainActivity.this,"Register Success",Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(MainActivity.this,"Register fail",Toast.LENGTH_SHORT).show();
+                                }
+                        }
+                        return false;
+                    }
+                });
+                //发送http
+                myHttp.Post(newUser,registerHandler);
             }
         }
     }
