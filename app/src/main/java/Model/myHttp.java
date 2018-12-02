@@ -1,8 +1,12 @@
 package Model;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.colin.myapplication.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

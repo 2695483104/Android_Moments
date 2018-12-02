@@ -1,5 +1,6 @@
 package com.example.colin.myapplication;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TextInputLayout;
@@ -30,8 +31,12 @@ public class MainActivity extends AppCompatActivity {
     Button submitButton;
     TextView swapText;
     Boolean isLogin = true;
+
+    TextInputLayout registerNameLayout;
     EditText registerName = null;
+    TextInputLayout registerPasswordLayout;
     EditText registerPassword = null;
+    TextInputLayout registerPhoneLayout;
     EditText registerPhone = null;
 
     @Override
@@ -45,15 +50,17 @@ public class MainActivity extends AppCompatActivity {
         registerLayout = findViewById(R.id.registerLayout);
         submitButton = findViewById(R.id.Button);
         swapText = findViewById(R.id.swap);
+        registerNameLayout = findViewById(R.id.registerNameLayout);
         registerName = findViewById(R.id.registerName);
+        registerPasswordLayout = findViewById(R.id.registerPasswordLayout);
         registerPassword = findViewById(R.id.registerPassword);
+        registerPhoneLayout = findViewById(R.id.registerPhoneLayout);
         registerPhone = findViewById(R.id.registerPhone);
         //设置登录&注册页面切换按钮点击事件
         swapText.setOnClickListener(new swapOnClickListener());
         //登录&注册 按钮事件
         submitButton.setOnClickListener(new submitOnClickListener());
         //注册验证
-        final TextInputLayout registerNameLayout = findViewById(R.id.registerNameLayout);
         registerName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -75,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        final TextInputLayout registerPasswordLayout = findViewById(R.id.registerPasswordLayout);
         registerPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -99,7 +105,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        final TextInputLayout registerPhoneLayout = findViewById(R.id.registerPhoneLayout);
         registerPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -160,10 +165,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             if(isLogin){
+
                 Log.i("按钮","登录点击");
                 //Verification
-                EditText username = findViewById(R.id.name);
-                username.setError("lalala");
+                final EditText username = findViewById(R.id.name);
+                //TODO 测试pyq界面关闭登录验证
+                 /*
                 final EditText password = findViewById(R.id.password);
                 //登录信息存入JSON
                 JSONObject user = new JSONObject();
@@ -201,7 +208,15 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
+                 */
                                     //TODO 跳转朋友圈界面
+                                    Intent intent = new Intent(MainActivity.this,PYQActivity.class);
+//                                    Bundle bundle = new Bundle();
+//                                    bundle.putString("username",username.getText().toString());
+//                                    intent.putExtras(bundle);
+                                    intent.putExtra("username",username.getText().toString());
+                                    startActivity(intent);
+                  /*
                                     password.setText("");
                                     Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
                                 }else{
@@ -214,9 +229,12 @@ public class MainActivity extends AppCompatActivity {
                 });
                 //发送http
                 myHttp.Post(user,loginHandler);
-
-            }else{
+*/
+            }else if ( !registerNameLayout.isErrorEnabled() && !registerPasswordLayout.isErrorEnabled() && !registerPhoneLayout.isErrorEnabled() ){
+                //不是登录界面则是注册界面，注册界面信息填写完整才允许注册 否则提示
+                //TODO 从不点击 直接点提交？怎么办
                 Log.i("按钮","注册点击");
+
                 // register
                 registerName = findViewById(R.id.registerName);
                 registerPassword = findViewById(R.id.registerPassword);
@@ -268,12 +286,17 @@ public class MainActivity extends AppCompatActivity {
                                 }else{
                                     Toast.makeText(MainActivity.this,"Register fail",Toast.LENGTH_SHORT).show();
                                 }
+                                break;
+                             default:
+                                 Toast.makeText(MainActivity.this, "网络连接失败" , Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
                 });
                 //发送http
                 myHttp.Post(newUser,registerHandler);
+            }else{
+                Toast.makeText(MainActivity.this, "注册信息有误" , Toast.LENGTH_SHORT).show();
             }
         }
     }
