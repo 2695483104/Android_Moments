@@ -69,12 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length()==0){
-                    registerNameLayout.setErrorEnabled(true);
-                    registerNameLayout.setError("用户名不能为空");
-                }else{
-                    registerNameLayout.setErrorEnabled(false);
-                }
+                registerNameCheck();
             }
 
             @Override
@@ -90,14 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() < 6){
-                    registerPasswordLayout.setErrorEnabled(true);
-                    registerPasswordLayout.setError("密码长度不能小于6");
-
-                }else{
-                    registerPasswordLayout.setErrorEnabled(false);
-//                    registerPasswordLayout.setError(null);//输入框下会有一行空位不好看
-                }
+                registerPasswordCheck();
             }
 
             @Override
@@ -113,12 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() != 11){
-                    registerPhoneLayout.setErrorEnabled(true);
-                    registerPhoneLayout.setError("电话号码应为11位");
-                }else{
-                    registerPhoneLayout.setErrorEnabled(false);
-                }
+                registerPhoneCheck();
             }
 
             @Override
@@ -159,7 +142,45 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setText("REGISTER");
         swapText.setText("LOGIN");
         isLogin = false;
+        //注册姓名文本框获取焦点
+        registerName.requestFocus();
     }
+
+    //输入验证
+    public boolean registerNameCheck(){
+        //三种方法效果一样
+//        Log.i("length=",registerName.length()+"");
+//        Log.i("length=",registerName.getText().length()+"");
+//        Log.i("length=",registerName.getText().toString().length()+"");
+        if(registerName.length()==0){
+            registerNameLayout.setErrorEnabled(true);
+            registerNameLayout.setError("用户名不能为空");
+        }else{
+            registerNameLayout.setErrorEnabled(false);
+        }
+        return !registerNameLayout.isErrorEnabled();//返回这个输入框的正确性
+    }
+    public boolean registerPasswordCheck() {
+        if(registerPassword.length() < 6){
+            registerPasswordLayout.setErrorEnabled(true);
+            registerPasswordLayout.setError("密码长度不能小于6");
+
+        }else{
+            registerPasswordLayout.setErrorEnabled(false);
+//            registerPasswordLayout.setError(null);//输入框下会有一行空位不好看
+        }
+        return !registerPasswordLayout.isErrorEnabled();
+    }
+    public boolean registerPhoneCheck() {
+        if(registerPhone.length() != 11){
+            registerPhoneLayout.setErrorEnabled(true);
+            registerPhoneLayout.setError("电话号码应为11位");
+        }else{
+            registerPhoneLayout.setErrorEnabled(false);
+        }
+        return !registerPhoneLayout.isErrorEnabled();
+    }
+
     //登录注册实现
     class submitOnClickListener implements  View.OnClickListener{
         @Override
@@ -230,9 +251,9 @@ public class MainActivity extends AppCompatActivity {
                 //发送http
                 myHttp.Post(user,loginHandler);
 */
-            }else if ( !registerNameLayout.isErrorEnabled() && !registerPasswordLayout.isErrorEnabled() && !registerPhoneLayout.isErrorEnabled() ){
+            }else if ( registerNameCheck() && registerPasswordCheck() && registerPhoneCheck() ){
                 //不是登录界面则是注册界面，注册界面信息填写完整才允许注册 否则提示
-                //TODO 从不点击 直接点提交？怎么办
+
                 Log.i("按钮","注册点击");
 
                 // register
