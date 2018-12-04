@@ -5,8 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".PYQActivity">
+    tools:context=".PYQActivity"
+    >
 
+    <!--AppBarLayout是负责素响应滚动细节的布局。-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -14,6 +16,8 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+        <!--CollapsingToolbarLayout负责折叠工具栏的布局-->
+        <!--app:contentScrim设置折叠时工具栏布局的颜色-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
@@ -23,14 +27,44 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="none"
+                android:src="@drawable/icon_pwd"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                />
+            <!--app:layout_collapseMode="pin"：CollapsingToolbarLayout折叠后，此布局将固定在顶部。-->
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                android:background="#00ff00"
-                app:title="PYQ"/>
+                android:gravity="center"
+                app:contentInsetStart="0dp"
+                app:title="PYQ">
+                <!--居中-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:textSize="20dp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:text="Moments"-->
+                    <!--/>-->
+                <TextView
+                    android:id="@+id/newTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+                    android:text="Moments"
+                    />
+            </android.support.v7.widget.Toolbar>
 
 
 
@@ -38,34 +72,46 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="#000000"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"/>
-    <TextView
-        android:id="@+id/textView"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|center_horizontal"
-        android:text="TextView" />
+        app:layout_anchorGravity="bottom|end">
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:text="UserName"
+            android:textColor="#ffffff"
+            android:textSize="20dp" />
+        <ImageView
+            android:id="@+id/userIcon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="#000000"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_toRightOf="@id/userName"/>
+    </RelativeLayout>
+
+
 
     <!--与AppbarLayout组合的滚动布局NestedScrollView
     里面要设置app:layout_behavior="@string/appbar_scrolling_view_behavior"不然没有效果-->
     <include layout="@layout/content_pyq" />
 
-    <!--原本图片位置是个按钮-->
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/fab_margin"
-        app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
+    <!--app:layout_anchor这个设置锚定在了AppBarLayout下方-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/fab"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_margin="@dimen/fab_margin"-->
+        <!--app:layout_anchor="@id/app_bar"-->
+        <!--app:layout_anchorGravity="bottom|end"-->
+        <!--app:srcCompat="@android:drawable/ic_dialog_email"/>-->
 
 
 </android.support.design.widget.CoordinatorLayout>
