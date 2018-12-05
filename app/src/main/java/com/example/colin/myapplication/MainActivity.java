@@ -20,7 +20,7 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Model.myHttp;
+import Model.MyHttp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -207,7 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("登录","准备发送登录信息："+user.toString());
                 //发送服务器
                 //http请求
-                myHttp myHttp = new myHttp();
+                MyHttp myHttp = new MyHttp();
                 //handler方法
                 Handler loginHandler = new Handler(new Handler.Callback() {
                     @Override
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
                 // 注册上传
                 //发送服务器
                 //http请求
-                myHttp myHttp = new myHttp();
+                MyHttp myHttp = new MyHttp();
                 //handler方法
                 Handler registerHandler = new Handler(new Handler.Callback() {
                     @Override

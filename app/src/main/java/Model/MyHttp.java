@@ -13,7 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class myHttp {
+public class MyHttp {
 
 
     public void Post(final JSONObject para, final Handler handler, final URL url){

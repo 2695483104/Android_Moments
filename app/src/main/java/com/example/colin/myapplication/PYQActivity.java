@@ -10,9 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import Model.MomentAdapter;
+import Model.MyListView;;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class PYQActivity extends AppCompatActivity {
 
@@ -33,7 +41,8 @@ public class PYQActivity extends AppCompatActivity {
         TextView newTitel = findViewById(R.id.newTitle);
         ImageView userIcon = findViewById(R.id.userIcon);
         //TODO toolbar 背景图片取不到
-        //TODO 头像在 toolbar下方
+        ImageView backGround = findViewById(R.id.image);
+        //TODO 头像在 toolbar下方 渐变
 
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -44,6 +53,18 @@ public class PYQActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+//        ListView moment = findViewById(R.id.momentsList);
+        MyListView moment = findViewById(R.id.momentsList);
+        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
+//        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
+        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
+        moment.setAdapter(momentAdapter);
+
+
+
+
+
     }
 
     @Override
