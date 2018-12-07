@@ -3,6 +3,8 @@ package Model;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,8 +17,21 @@ import java.net.URL;
 
 public class MyHttp {
 
+    URL url = null;
+    public void Post(final JSONObject para, final Handler handler, final String urlString){
+        Log.i("无指定URLPost","创建默认URL对象");
 
-    public void Post(final JSONObject para, final Handler handler, final URL url){
+        //创建url对象
+        try {
+            if (url != null) {
+                url = new URL(urlString);
+            } else {
+                url = new URL("http://172.20.10.2:8080/android_http_servers/Userlogin");
+            }
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+            Log.i("创建url对象异常", e.toString());
+        }
 
         //新建子线程 在子线程中访问服务器
         new Thread(){
@@ -66,12 +81,12 @@ public class MyHttp {
                             stringBuilder.append(inputStr);
                         }
                         Log.i("收到的数据",stringBuilder.toString());
-                        JSONObject jsonObject = new JSONObject(stringBuilder.toString());
-                        Log.i("收到的数据转JSON",jsonObject.toString());
+                        JSONArray jsonArray = new JSONArray(stringBuilder.toString());;
+                        Log.i("收到的数据转JSON",jsonArray.toString());
                         //返回JSONObject到主线程
                         Message responseJSON = new Message();
                         responseJSON.what = 1;
-                        responseJSON.obj = jsonObject;
+                        responseJSON.obj = jsonArray;
                         handler.sendMessage(responseJSON);
                         }else{
                         Log.i("http请求失败ResponseCode",httpURLConnection.getResponseCode()+"");
@@ -82,21 +97,8 @@ public class MyHttp {
                 }
             }
         }.start();
-
-
     }
-
     public void Post(final JSONObject para, final Handler handler){
-        Log.i("无指定URLPost","创建默认URL对象");
-        URL url = null;
-        //创建url对象
-        try {
-            url = new URL("http://172.20.10.2:8080/android_http_servers/Userlogin");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            Log.i("创建url对象异常",e.toString());
-        }
-        Post(para,handler,url);
+        Post(para,handler,null);
     }
-
 }

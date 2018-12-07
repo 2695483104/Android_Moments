@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
                 //Verification
                 final EditText username = findViewById(R.id.name);
                 //TODO 测试pyq界面关闭登录验证
-                 /*
+
                 final EditText password = findViewById(R.id.password);
                 //登录信息存入JSON
                 JSONObject user = new JSONObject();
@@ -215,7 +216,13 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
                         switch(msg.what){
                             case 1:
-                                JSONObject response = (JSONObject) msg.obj;
+                                JSONArray jsonArray = (JSONArray) msg.obj;
+                                JSONObject response = null;
+                                try {
+                                    response = jsonArray.getJSONObject(0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 // 在这里进行UI操作，将结果显示到界面上
                                 Log.i("主线程hander收到的数据",response.toString());
                                 //用户合法性
@@ -229,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
-                 */
+
                                     //TODO 跳转朋友圈界面
                                     Intent intent = new Intent(MainActivity.this,PYQActivity.class);
 //                                    Bundle bundle = new Bundle();
@@ -237,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
 //                                    intent.putExtras(bundle);
                                     intent.putExtra("username",username.getText().toString());
                                     startActivity(intent);
-                  /*
+
                                     password.setText("");
                                     Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
                                 }else{
@@ -250,7 +257,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 //发送http
                 myHttp.Post(user,loginHandler);
-*/
+
             }else if ( registerNameCheck() && registerPasswordCheck() && registerPhoneCheck() ){
                 //不是登录界面则是注册界面，注册界面信息填写完整才允许注册 否则提示
 
@@ -283,7 +290,13 @@ public class MainActivity extends AppCompatActivity {
 //                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
                         switch(msg.what){
                             case 1:
-                                JSONObject response = (JSONObject) msg.obj;
+                                JSONArray jsonArray = (JSONArray) msg.obj;
+                                JSONObject response = null;
+                                try {
+                                    response = jsonArray.getJSONObject(0);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                                 // 在这里进行UI操作，将结果显示到界面上
                                 Log.i("主线程hander收到的数据",response.toString());
                                 //注册成功？
