@@ -1,19 +1,13 @@
 package com.example.colin.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import Model.MomentAdapter;
@@ -35,7 +29,7 @@ public class PYQActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.back);
+            actionBar.setHomeAsUpIndicator(R.drawable.white_back);
         }
 
         TextView newTitel = findViewById(R.id.newTitle);
@@ -53,6 +47,12 @@ public class PYQActivity extends AppCompatActivity {
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
+        //服务端获取朋友圈信息
+
+
+
+
 
 //        ListView moment = findViewById(R.id.momentsList);
         MyListView moment = findViewById(R.id.momentsList);
@@ -78,11 +78,14 @@ public class PYQActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_camera:
-            //TODO 发朋友圈
+            //TODO 发朋友圈界面
                 Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PYQActivity.this,PostMoment.class);
+                startActivity(intent);
                 break;
             case android.R.id.home:
-                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
+                PYQActivity.this.finish();
                 break;
 
         }

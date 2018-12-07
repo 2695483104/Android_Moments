@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="none"
-                android:src="@drawable/icon_pwd"
+                android:src="@drawable/imag_cat"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 />
@@ -71,31 +71,41 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginBottom="100dp"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end">
+        app:layout_anchorGravity="bottom"
+        android:gravity="end">
 
         <TextView
             android:id="@+id/userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="30dp"
+            android:layout_alignBottom="@+id/userIcon"
+            android:layout_marginBottom="20dp"
             android:text="UserName"
             android:textColor="#ffffff"
+            android:layout_toLeftOf="@+id/userIcon"
             android:textSize="20dp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:src="#eeeeee"
+            android:layout_alignBottom="@+id/userIcon" />
         <ImageView
             android:id="@+id/userIcon"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="#000000"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_toRightOf="@id/userName"/>
+            android:background="@drawable/imag_cat"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            />
     </RelativeLayout>
+
 
 
 
