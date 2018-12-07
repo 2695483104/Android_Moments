@@ -19,14 +19,15 @@ public class MyHttp {
 
     URL url = null;
     public void Post(final JSONObject para, final Handler handler, final String urlString){
-        Log.i("无指定URLPost","创建默认URL对象");
 
         //创建url对象
         try {
-            if (url != null) {
+            Log.i("指定URL","创建URL对象");
+            if (urlString != null) {
                 url = new URL(urlString);
             } else {
-                url = new URL("http://172.20.10.2:8080/android_http_servers/Userlogin");
+                Log.i("无指定URLPost","创建默认URL对象");
+                url = new URL("http://172.20.10.2:8080/android_http_servers/User");
             }
         }catch (MalformedURLException e) {
             e.printStackTrace();
@@ -80,9 +81,9 @@ public class MyHttp {
                         while ((inputStr = bufferedReader.readLine()) != null){
                             stringBuilder.append(inputStr);
                         }
-                        Log.i("收到的数据",stringBuilder.toString());
+                        Log.i("子线程收到数据转stringBuilder",stringBuilder.toString());
                         JSONArray jsonArray = new JSONArray(stringBuilder.toString());;
-                        Log.i("收到的数据转JSON",jsonArray.toString());
+                        Log.i("收到的数据转JSONArray",jsonArray.toString());
                         //返回JSONObject到主线程
                         Message responseJSON = new Message();
                         responseJSON.what = 1;

@@ -7,9 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.colin.myapplication.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -31,21 +35,30 @@ public class MomentAdapter extends ArrayAdapter {
         ViewHeader viewHeader = new ViewHeader();
         if (convertView == null){
             view = LayoutInflater.from(getContext()).inflate(resourceID,parent,false);
-            viewHeader.textView = view.findViewById(R.id.momentText);
+            viewHeader.icon = view.findViewById(R.id.icon);
+            viewHeader.text = view.findViewById(R.id.momentText);
+            viewHeader.image1 = view.findViewById(R.id.image1);
             view.setTag(viewHeader);
         }else{
             view = convertView;
             viewHeader = (ViewHeader) view.getTag();
         }
+        
+        JSONObject moment = (JSONObject) getItem(position);
+        String text = null;
+        try {
+            text = moment.getString("text");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        viewHeader.text.setText(text);
 
-
-        String data = (String) getItem(position);
-        viewHeader.textView.setText(data);
-//        textView.setText(data);
         return view;
     }
     class ViewHeader{
-        TextView textView;
+        ImageView icon;
+        TextView text;
+        ImageView image1;
     }
 
 }

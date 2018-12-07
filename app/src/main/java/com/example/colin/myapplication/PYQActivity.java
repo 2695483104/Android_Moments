@@ -23,11 +23,13 @@ import Model.MomentAdapter;
 import Model.MyHttp;
 import Model.MyListView;;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class PYQActivity extends AppCompatActivity {
 
+    TextView userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class PYQActivity extends AppCompatActivity {
 
         //从主界面接收用户名
         Intent intent = getIntent();
-        TextView userName = findViewById(R.id.userName);
+        userName = findViewById(R.id.userName);
         userName.setText(intent.getStringExtra("username"));
 
 
@@ -52,6 +54,7 @@ public class PYQActivity extends AppCompatActivity {
 
         JSONObject getMoment = new JSONObject();
         try {
+            getMoment.put("requestCode",1);//requestCode 1 获取朋友圈信息
             getMoment.put("userName",userName.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,19 +68,27 @@ public class PYQActivity extends AppCompatActivity {
             @Override
             public boolean handleMessage(Message msg) {
 //                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
+                List<JSONObject> momentsList = new ArrayList<>();
                 switch(msg.what){
                     case 1:
-                        JSONObject moments = (JSONObject) msg.obj;
-                        // 在这里进行UI操作，将结果显示到界面上
-                        Log.i("主线程hander收到的朋友圈数据",moments.toString());
-
-                        //收到JSONObject，将它转换为JSONArray
-
-
-                            Toast.makeText(PYQActivity.this,"get moments Success",Toast.LENGTH_SHORT).show();
-
-                            Toast.makeText(PYQActivity.this,"get moments fail",Toast.LENGTH_SHORT).show();
-
+                        JSONArray jsonArray = (JSONArray) msg.obj;
+                        Log.i("主线程hander收到朋友圈jsonArray",jsonArray.toString());
+                        //JSONArray 转 List
+                        for(int i=0 ; i < jsonArray.length() ;i++)
+                        {
+                            //获取每一个JsonObject对象
+                            JSONObject moment = null;
+                            try {
+                                moment = jsonArray.getJSONObject(i);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                                Log.i("momentHandler","JSONArray 取 JSONObject 出错");
+                            }
+                            Log.i("jsonArray中取到的Json",moment.toString());
+                            momentsList.add(moment);
+                        }
+                        Log.i("测试取到的List JSON",momentsList.toString());
+                        showMomentsList(momentsList);
                         break;
                     default:
                         Toast.makeText(PYQActivity.this, "网络连接失败" , Toast.LENGTH_SHORT).show();
@@ -87,7 +98,7 @@ public class PYQActivity extends AppCompatActivity {
         });
 
         //发送http
-        String url = "http://172.20.10.2:8080/android_http_servers/GetMoments";
+        String url = "http://172.20.10.2:8080/android_http_servers/Moments";
         myHttp.Post(getMoment,momentHandler,url);
 
 //传入网络图片地址  
@@ -122,16 +133,23 @@ public class PYQActivity extends AppCompatActivity {
 
 
 //        ListView moment = findViewById(R.id.momentsList);
+//        MyListView moment = findViewById(R.id.momentsList);
+//        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
+////        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
+//        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
+//        moment.setAdapter(momentAdapter);
+
+
+
+
+
+    }
+
+    public void showMomentsList(List<JSONObject> momentsList){
         MyListView moment = findViewById(R.id.momentsList);
-        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
-//        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
-        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
+        //TODO 重写momentAdapter
+        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,momentsList);
         moment.setAdapter(momentAdapter);
-
-
-
-
-
     }
 
     @Override
@@ -147,6 +165,7 @@ public class PYQActivity extends AppCompatActivity {
             //TODO 发朋友圈界面
                 Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PYQActivity.this,PostMoment.class);
+                intent.putExtra("userName",userName.getText().toString());
                 startActivity(intent);
                 break;
             case android.R.id.home:

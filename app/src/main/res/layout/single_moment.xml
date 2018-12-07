@@ -4,10 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
     <ImageView
+        android:id="@+id/icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="20dp"
-        android:src="@drawable/py"/>
+        android:src="#cecece"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,15 +18,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
+            android:maxLines="5"
             android:text="lalalalalalalalalalala"/>
         <ImageView
+            android:id="@+id/image1"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/py"/>
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/py"/>
+            android:src="#cecece"/>
+
 
     </LinearLayout>
 

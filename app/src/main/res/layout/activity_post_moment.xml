@@ -27,7 +27,7 @@
     </android.support.v7.widget.Toolbar>
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/momentText"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
@@ -52,7 +52,7 @@
         android:layout_marginEnd="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
+        app:layout_constraintTop_toBottomOf="@+id/momentText"
         android:orientation="vertical">
         <RelativeLayout
             android:layout_width="match_parent"
