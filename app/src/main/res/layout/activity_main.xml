@@ -112,7 +112,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:id="@+id/registerNameLayout"
-            app:hintTextAppearance="@style/Hint">
+            app:hintTextAppearance="@style/Hint"
+            app:errorTextAppearance="@style/MyAppTheme.TextInputLayout">
 
             <EditText
                 android:id="@+id/registerName"
@@ -134,7 +135,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:id="@+id/registerPasswordLayout"
-            app:hintTextAppearance="@style/Hint">
+            app:hintTextAppearance="@style/Hint"
+            app:errorTextAppearance="@style/MyAppTheme.TextInputLayout">
 
             <EditText
                 android:id="@+id/registerPassword"
@@ -156,7 +158,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="center_vertical"
             android:id="@+id/registerPhoneLayout"
-            app:hintTextAppearance="@style/Hint">
+            app:hintTextAppearance="@style/Hint"
+            app:errorTextAppearance="@style/MyAppTheme.TextInputLayout">
 
             <EditText
                 android:id="@+id/registerPhone"

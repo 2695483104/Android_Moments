@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,14 @@ public class MomentAdapter extends ArrayAdapter {
             viewHolder.icon = view.findViewById(R.id.icon);
             viewHolder.text = view.findViewById(R.id.momentText);
             viewHolder.image1 = view.findViewById(R.id.image1);
+            viewHolder.image2 = view.findViewById(R.id.image2);
+            viewHolder.image3 = view.findViewById(R.id.image3);
+            viewHolder.image4 = view.findViewById(R.id.image4);
+            viewHolder.image5 = view.findViewById(R.id.image5);
+            viewHolder.image6 = view.findViewById(R.id.image6);
+            viewHolder.image7 = view.findViewById(R.id.image7);
+            viewHolder.image8 = view.findViewById(R.id.image8);
+            viewHolder.image9 = view.findViewById(R.id.image9);
             view.setTag(viewHolder);
         }else{
             view = convertView;
@@ -77,10 +86,15 @@ public class MomentAdapter extends ArrayAdapter {
         //从JSON取数据
         String iconURL = null;
         String text = null;
+        String[] images ;
 //        String image1URL = null;
         try {
             iconURL = moment.getString("icon");
             text = moment.getString("text");
+//            images = (String[]) moment.get("images");//这是一个JSONArray 改服务端数据格式吧
+            Log.i("images",moment.get("images").toString());
+            //TODO 测试有没有转换成string数组
+//            Log.i("images字符数组",images.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -103,6 +117,14 @@ public class MomentAdapter extends ArrayAdapter {
         ImageView icon;
         TextView text;
         ImageView image1;
+        ImageView image2;
+        ImageView image3;
+        ImageView image4;
+        ImageView image5;
+        ImageView image6;
+        ImageView image7;
+        ImageView image8;
+        ImageView image9;
     }
 
 

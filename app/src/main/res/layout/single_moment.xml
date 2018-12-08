@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:layout_marginBottom="5dp">
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="10dp"
         android:src="#cecece"/>
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,18 +16,90 @@
         android:orientation="vertical">
         <TextView
             android:id="@+id/momentText"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:maxLines="5"
+            android:layout_marginEnd="40dp"
             android:text="lalalalalalalalalalala"/>
-        <ImageView
-            android:id="@+id/image1"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="#cecece"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:layout_margin="2dp"
+                android:src="#cecece"
+                />
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_toRightOf="@+id/image1"/>
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_toRightOf="@id/image2"/>
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:layout_margin="2dp"
+                android:src="#cecece"
+                android:layout_below="@+id/image1"
+                />
+            <ImageView
+                android:id="@+id/image5"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_below="@+id/image2"
+                android:layout_toRightOf="@+id/image4"/>
+            <ImageView
+                android:id="@+id/image6"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_below="@+id/image3"
+                android:layout_toRightOf="@id/image5"/>
+
+            <ImageView
+                android:id="@+id/image7"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:layout_margin="2dp"
+                android:src="#cecece"
+                android:layout_below="@id/image4"
+                />
+            <ImageView
+                android:id="@+id/image8"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_below="@id/image5"
+                android:layout_toRightOf="@+id/image7"/>
+            <ImageView
+                android:id="@+id/image9"
+                android:layout_width="@dimen/moment_image"
+                android:layout_height="@dimen/moment_image"
+                android:src="#cecece"
+                android:layout_margin="2dp"
+                android:layout_below="@id/image6"
+                android:layout_toRightOf="@id/image8"/>
 
 
+        </RelativeLayout>
     </LinearLayout>
 
 

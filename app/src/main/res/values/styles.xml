@@ -38,4 +38,9 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="MyAppTheme.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#ff5252</item>
+        <item name="android:textSize">12dp</item>
+    </style>
+
 </resources>
