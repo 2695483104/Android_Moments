@@ -101,36 +101,6 @@ public class PYQActivity extends AppCompatActivity {
         String url = "http://172.20.10.2:8080/android_http_servers/Moments";
         myHttp.Post(getMoment,momentHandler,url);
 
-//传入网络图片地址  
-
-//        try {  
-//            URL url = new URL("http://news.xinhuanet.com/photo/2012-02/09/122675973_51n.jpg");  
-//            HttpURLConnection conn= (HttpURLConnection) url.openConnection();  
-//            conn.setRequestMethod("GET");  
-//            conn.setConnectTimeout(5*1000);  
-//            conn.connect();  
-//            InputStream in=conn.getInputStream();  
-//            ByteArrayOutputStream bos=new ByteArrayOutputStream();  
-//            byte[] buffer=new byte[1024];  
-//            int len = 0;  
-//            while((len=in.read(buffer))!=-1){  
-//                bos.write(buffer,0,len);  
-//            }  
-//            byte[] dataImage=bos.toByteArray();  
-//            bos.close();  
-//            in.close();  
-//            Bitmap bitmap=BitmapFactory.decodeByteArray(dataImage, 0, dataImage.length);  
-//            //Drawable drawable=BitmapDrawable.  
-////            imageView.setImageBitmap(bitmap);  
-//        } catch (Exception e) {  
-//            // TODO Auto-generated catch block  
-//            e.printStackTrace();  
-//            Toast.makeText(getApplicationContext(), "图片加载失败", 1).show();  
-//        }
-
-
-
-
 
 //        ListView moment = findViewById(R.id.momentsList);
 //        MyListView moment = findViewById(R.id.momentsList);
@@ -138,10 +108,6 @@ public class PYQActivity extends AppCompatActivity {
 ////        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
 //        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
 //        moment.setAdapter(momentAdapter);
-
-
-
-
 
     }
 

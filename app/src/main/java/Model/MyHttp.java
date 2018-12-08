@@ -43,7 +43,7 @@ public class MyHttp {
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     // 设置为Post请求,POST要大写
                     httpURLConnection.setRequestMethod("POST");
-                    httpURLConnection.setRequestMethod("GET");
+//                    httpURLConnection.setRequestMethod("GET");
                     // 设置连接主机超时时间
                     httpURLConnection.setConnectTimeout(5 * 1000);
                     //设置从主机读取数据超时
