@@ -2,5 +2,7 @@
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="moment_image">80dp</dimen>
+    <dimen name="moment_over3_imagemoment_image">80dp</dimen>
+    <dimen name="moment_12_image">150dp</dimen>
+    <dimen name="moment_over3_image">90dp</dimen>
 </resources>
