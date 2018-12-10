@@ -38,7 +38,7 @@ public class MomentAdapter extends ArrayAdapter {
     private int resourceID;
     private ListView listView;
     String id = null;
-    private LruCache<String, BitmapDrawable> imageCache;
+    private LruCache<String, Bitmap> imageCache;
 
 
     public MomentAdapter(@NonNull Context context, int resource, @NonNull List objects) {
@@ -47,10 +47,10 @@ public class MomentAdapter extends ArrayAdapter {
         //设置LruCache缓存为最大缓存的1／2；
         int maxCache = (int) Runtime.getRuntime().maxMemory();
         int cacheSize = maxCache / 2;
-        imageCache = new LruCache<String, BitmapDrawable>(cacheSize) {
+        imageCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
-            protected int sizeOf(String key, BitmapDrawable value) {
-                return value.getBitmap().getByteCount();
+            protected int sizeOf(String key, Bitmap value) {
+                return value.getByteCount();
             }
         };
     }
@@ -102,12 +102,11 @@ public class MomentAdapter extends ArrayAdapter {
                 String temp = imagesJSONArry.get(i).toString();
                 imagesList.add(imagesJSONArry.get(i).toString());
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        // 跟具图片数量s设置图片排版
+        // 跟具图片数量设置图片排版
         for (int i=0;i<9;i++){
                 viewHolder.images[i].setVisibility(View.GONE);
         }
@@ -172,8 +171,11 @@ public class MomentAdapter extends ArrayAdapter {
 
         // 图片--如果本地已有缓存，就从本地读取，否则从网络请求数据
         if (imageCache.get(iconURL) != null) {
-            viewHolder.icon.setImageDrawable(imageCache.get(iconURL));
+//            viewHolder.icon.setImageDrawable(imageCache.get(iconURL));
+            viewHolder.icon.setImageBitmap(imageCache.get(iconURL));
+            Log.i("缓存中取图片",iconURL);
         } else {
+            Log.i("下载图片",iconURL);
 //            ImageTask it = new ImageTask();
 //            it.execute(iconURL,text);
             LoadImage(viewHolder.icon,iconURL);
@@ -194,7 +196,7 @@ public class MomentAdapter extends ArrayAdapter {
         return view;
     }
 
-    //TODO images数组
+    //一个Item中的view
     class ViewHolder{
         ImageView icon;
         TextView text;
@@ -222,63 +224,63 @@ public class MomentAdapter extends ArrayAdapter {
      * onPostExecute:当doInBackground方法完成后,系统将自动调用此方法,并将doInBackground方法返回的值传入此方法.通过此方法进行UI的更新.
      * onProgressUpdate:当在doInBackground方法中调用publishProgress方法更新任务执行进度后,将调用此方法.通过此方法我们可以知晓任务的完成进度.
      */
-    class ImageTask extends AsyncTask<String, Void, BitmapDrawable> {
-
-        private String imageUrl;
-        String text;
-
-        @Override
-        protected BitmapDrawable doInBackground(String... params) {
-            imageUrl = params[0];
-            text = params[1];
-            Bitmap bitmap = downloadImage();
-            BitmapDrawable db = new BitmapDrawable(listView.getResources(),
-                    bitmap);
-            // 如果本地还没缓存该图片，就缓存
-            if (imageCache.get(imageUrl) == null) {
-                imageCache.put(imageUrl, db);
-                Log.i("缓存图片",imageUrl);
-            }
-            return db;
-        }
-
-        @Override
-        protected void onPostExecute(BitmapDrawable result) {
-            // 通过Tag找到我们需要的ImageView，如果该ImageView所在的item已被移出页面，就会直接返回null
-            ImageView iv = (ImageView) listView.findViewWithTag(text);
-            if (iv != null && result != null) {
-                iv.setImageDrawable(result);
-            }
-        }
-
-//        根据url从网络上下载图片
-        private Bitmap downloadImage() {
-            HttpURLConnection con = null;
-            Bitmap bitmap = null;
-            try {
-                URL url = new URL("http://172.20.10.2:8080/android_http_servers"+imageUrl);
-                con = (HttpURLConnection) url.openConnection();
-                con.setConnectTimeout(5 * 1000);
-                con.setReadTimeout(10 * 1000);
-                bitmap = BitmapFactory.decodeStream(con.getInputStream());
-                Log.i("下载图片",imageUrl.toString());
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (con != null) {
-                    con.disconnect();
-                }
-            }
-            return bitmap;
-        }
-
-    }
+//    class ImageTask extends AsyncTask<String, Void, BitmapDrawable> {
+//
+//        private String imageUrl;
+//        String text;
+//
+//        @Override
+//        protected BitmapDrawable doInBackground(String... params) {
+//            imageUrl = params[0];
+//            text = params[1];
+//            Bitmap bitmap = downloadImage();
+//            BitmapDrawable db = new BitmapDrawable(listView.getResources(),
+//                    bitmap);
+//            // 如果本地还没缓存该图片，就缓存
+//            if (imageCache.get(imageUrl) == null) {
+//                imageCache.put(imageUrl, db);
+//                Log.i("缓存图片",imageUrl);
+//            }
+//            return db;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(BitmapDrawable result) {
+//            // 通过Tag找到我们需要的ImageView，如果该ImageView所在的item已被移出页面，就会直接返回null
+//            ImageView iv = (ImageView) listView.findViewWithTag(text);
+//            if (iv != null && result != null) {
+//                iv.setImageDrawable(result);
+//            }
+//        }
+//
+////        根据url从网络上下载图片
+//        private Bitmap downloadImage() {
+//            HttpURLConnection con = null;
+//            Bitmap bitmap = null;
+//            try {
+//                URL url = new URL("http://172.20.10.2:8080/android_http_servers"+imageUrl);
+//                con = (HttpURLConnection) url.openConnection();
+//                con.setConnectTimeout(5 * 1000);
+//                con.setReadTimeout(10 * 1000);
+//                bitmap = BitmapFactory.decodeStream(con.getInputStream());
+//                Log.i("下载图片",imageUrl.toString());
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            } finally {
+//                if (con != null) {
+//                    con.disconnect();
+//                }
+//            }
+//            return bitmap;
+//        }
+//
+//    }
 
 
     private void LoadImage(ImageView img, String path)
     {
         //异步加载图片资源
-        AsyncTaskImageLoad async=new AsyncTaskImageLoad(img);
+        AsyncTaskImageLoad async=new AsyncTaskImageLoad(img,imageCache);
         //执行异步加载，并把图片的路径传送过去
         async.execute(path);
     }

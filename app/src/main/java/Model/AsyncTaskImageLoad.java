@@ -3,6 +3,7 @@ package Model;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.v4.util.LruCache;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -11,9 +12,11 @@ import java.net.URL;
 
 public class AsyncTaskImageLoad extends AsyncTask<String, Integer, Bitmap> {
     private ImageView Image=null;
-    public AsyncTaskImageLoad(ImageView img)
+    private LruCache<String, Bitmap> imageCache = null;
+    public AsyncTaskImageLoad(ImageView img, LruCache<String, Bitmap> imageCache)
     {
         Image=img;
+        this.imageCache = imageCache;
     }
 
     @Override
@@ -28,6 +31,7 @@ public class AsyncTaskImageLoad extends AsyncTask<String, Integer, Bitmap> {
             {
                 InputStream input=conn.getInputStream();
                 Bitmap map=BitmapFactory.decodeStream(input);
+                imageCache.put(params[0],map);//缓存图片
                 return map;
             }
         } catch (Exception e)
