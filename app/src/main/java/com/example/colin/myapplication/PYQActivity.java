@@ -10,8 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +19,9 @@ import org.json.JSONObject;
 
 import Model.MomentAdapter;
 import Model.MyHttp;
-import Model.MyListView;;
+import Model.MyListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PYQActivity extends AppCompatActivity {
@@ -34,7 +31,7 @@ public class PYQActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pyq);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //返回按钮
         ActionBar actionBar = getSupportActionBar();
@@ -44,14 +41,22 @@ public class PYQActivity extends AppCompatActivity {
         }
 
         //从主界面接收用户名
-        Intent intent = getIntent();
-        userName = findViewById(R.id.userName);
-        userName.setText(intent.getStringExtra("username"));
+//        Intent intent = getIntent();
+//        userName = findViewById(R.id.userName);
+//        userName.setText(intent.getStringExtra("username"));
+//
+//        //服务端获取朋友圈信息展示出来
+//        getMoments();
 
+//        ListView moment = findViewById(R.id.momentsList);
+//        MyListView moment = findViewById(R.id.momentsList);
+//        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
+//        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
+//        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
+//        moment.setAdapter(momentAdapter);
+    }
 
-
-        //服务端获取朋友圈信息
-
+    public void getMoments(){
         JSONObject getMoment = new JSONObject();
         try {
             getMoment.put("requestCode",1);//requestCode 1 获取朋友圈信息
@@ -96,19 +101,9 @@ public class PYQActivity extends AppCompatActivity {
                 return false;
             }
         });
-
         //发送http
         String url = "http://172.20.10.2:8080/android_http_servers/Moments";
         myHttp.Post(getMoment,momentHandler,url);
-
-
-//        ListView moment = findViewById(R.id.momentsList);
-//        MyListView moment = findViewById(R.id.momentsList);
-//        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
-////        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
-//        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
-//        moment.setAdapter(momentAdapter);
-
     }
 
     public void showMomentsList(List<JSONObject> momentsList){
@@ -121,18 +116,18 @@ public class PYQActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_pyq,menu);
-
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_camera:
             //TODO 发朋友圈界面
-                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PYQActivity.this,PostMoment.class);
-                intent.putExtra("userName",userName.getText().toString());
-                startActivity(intent);
+//                intent.putExtra("userName",userName.getText().toString());
+                startActivityForResult(intent,1);
                 break;
             case android.R.id.home:
 //                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
@@ -142,4 +137,11 @@ public class PYQActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        getMoments();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
 }

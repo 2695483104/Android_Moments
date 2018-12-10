@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import Model.MyHttp;
 
 public class PostMoment extends AppCompatActivity {
 
+    Boolean shareToQzone = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,20 @@ public class PostMoment extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.black_back);
         }
+        final ImageView qzone = findViewById(R.id.qzone);
+        qzone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (!shareToQzone){
+                    qzone.setImageResource(R.drawable.qzone_yes);
+                    shareToQzone = true;
+                }else{
+                    qzone.setImageResource(R.drawable.qzone_no);
+                    shareToQzone = false;
+                }
+            }
+        });
     }
 
     @Override
@@ -48,6 +65,7 @@ public class PostMoment extends AppCompatActivity {
                 //TODO 发朋友圈
                 Toast.makeText(PostMoment.this,"Sending ... ",Toast.LENGTH_SHORT).show();
                 uploadMoment();
+                this.finish();
                 break;
             case android.R.id.home:
 //                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
@@ -105,9 +123,13 @@ public class PostMoment extends AppCompatActivity {
                         }
                         //朋友圈发送成功提示 返回上一层 失败提示
                         if (postSuccess){
-                            Toast.makeText(PostMoment.this,"post Success",Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(PostMoment.this,"post Success",Toast.LENGTH_SHORT).show();
+                            Log.i("postSuccess","返回intent数据");
+                            Intent result = new Intent();
+                            result.putExtra("postSuccess","true");
+                            PostMoment.this.setResult(1,result);
+                            PostMoment.this.finish();
                         }else{
-
                             Toast.makeText(PostMoment.this,"post failed",Toast.LENGTH_SHORT).show();
                         }
                 }

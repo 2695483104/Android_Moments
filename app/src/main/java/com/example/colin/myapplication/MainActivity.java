@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v){
             if(isLogin){
-
+/*
                 Log.i("按钮","登录点击");
                 //Verification
                 final EditText username = findViewById(R.id.name);
@@ -236,18 +236,20 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
+*/
 
-                                    //TODO 跳转朋友圈界面
+
+                                    // 跳转朋友圈界面
                                     Intent intent = new Intent(MainActivity.this,PYQActivity.class);
 //                                    Bundle bundle = new Bundle();
 //                                    bundle.putString("username",username.getText().toString());
 //                                    intent.putExtras(bundle);
-                                    intent.putExtra("username",username.getText().toString());
+//                                    intent.putExtra("username",username.getText().toString());
                                     startActivity(intent);
-
+/*
                                     password.setText("");
                                     Toast.makeText(MainActivity.this,"Login Success",Toast.LENGTH_SHORT).show();
-                                }else{
+                               }else{
                                     password.setText("");
                                     Toast.makeText(MainActivity.this,"用户名或密码错误",Toast.LENGTH_SHORT).show();
                                 }
@@ -257,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 //发送http
                 myHttp.Post(user,loginHandler);
-
+*/
             }else if ( registerNameCheck() && registerPasswordCheck() && registerPhoneCheck() ){
                 //不是登录界面则是注册界面，注册界面信息填写完整才允许注册 否则提示
 

@@ -62,7 +62,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:src="#000000" />
+                android:src="@drawable/location" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,7 +90,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:src="#000000" />
+                android:src="@drawable/share_to" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                 android:layout_alignTop="@+id/icon_who_can_see"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/icon_who_can_see"
-                android:text="所在位置"
+                android:text="谁能看见"
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <ImageView
@@ -117,7 +117,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:src="#000000" />
+                android:src="@drawable/mention" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +125,7 @@
                 android:layout_alignTop="@+id/icon_at"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/icon_at"
-                android:text="所在位置"
+                android:text="提醒谁看"
                 android:textSize="20dp"
                 android:textStyle="bold" />
             <ImageView
@@ -136,10 +136,12 @@
                 android:src="@drawable/gray_arrow" />
         </RelativeLayout>
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:paddingTop="10dp"
+            android:id="@+id/qzone"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
-            android:src="#000000"/>
+            android:src="@drawable/qzone_no"/>
     </LinearLayout>
 
 

@@ -58,7 +58,7 @@ public class MomentAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
+Log.e("getView","---------------");
         if (listView == null) {
             listView = (ListView) parent;
         }
@@ -180,6 +180,7 @@ public class MomentAdapter extends ArrayAdapter {
             LoadImage(viewHolder.icon,iconURL);
         }
 
+        Log.i("加载多图",imagesList.size()+"");
         for (int i = 0;i < imagesList.size();i++){
             String multiImages = imagesList.get(i);
             if (imageCache.get(multiImages) != null) {
