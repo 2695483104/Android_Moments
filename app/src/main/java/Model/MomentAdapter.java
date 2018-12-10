@@ -157,8 +157,7 @@ public class MomentAdapter extends ArrayAdapter {
 
         //将view与数据绑定
         viewHolder.text.setText(text);
-        viewHolder.icon.setTag(text);
-//
+//        viewHolder.icon.setTag(text);
 //        viewHolder.image1.setTag(imagesString[0]);
 //        viewHolder.image2.setTag(imagesString[1]);
 //        viewHolder.image3.setTag(imagesString[2]);
@@ -179,7 +178,15 @@ public class MomentAdapter extends ArrayAdapter {
 //            ImageTask it = new ImageTask();
 //            it.execute(iconURL,text);
             LoadImage(viewHolder.icon,iconURL);
+        }
 
+        for (int i = 0;i < imagesList.size();i++){
+            String multiImages = imagesList.get(i);
+            if (imageCache.get(multiImages) != null) {
+                viewHolder.images[i].setImageBitmap(imageCache.get(multiImages));
+            } else {
+                LoadImage(viewHolder.images[i],multiImages);
+            }
         }
 
 
