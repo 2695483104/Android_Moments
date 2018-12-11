@@ -17,7 +17,6 @@ public class MyListView extends ListView {
     public MyListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
-
     //设置不滚动
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -32,8 +31,8 @@ public class MyListView extends ListView {
         Integer.MAX_VALUE >> 2：表示父布局给的参考的大小无限大。（listview无边界）
         MeasureSpec.AT_MOST：表示根据布局的大小来确定listview最终的高度，也就是有多少内容就显示多高。
         */
-        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
-
+//        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.AT_MOST);
+        int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2, MeasureSpec.EXACTLY);
         super.onMeasure(widthMeasureSpec, expandSpec);
 //        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }

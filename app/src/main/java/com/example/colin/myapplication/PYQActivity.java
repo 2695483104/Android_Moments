@@ -1,5 +1,6 @@
 package com.example.colin.myapplication;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,8 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,8 @@ import java.util.List;
 public class PYQActivity extends AppCompatActivity {
 
     TextView userName;
+    MyListView moment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,20 +45,18 @@ public class PYQActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.white_back);
         }
 
-        //从主界面接收用户名
-//        Intent intent = getIntent();
-//        userName = findViewById(R.id.userName);
-//        userName.setText(intent.getStringExtra("username"));
-//
-//        //服务端获取朋友圈信息展示出来
-//        getMoments();
+//        从主界面接收用户名
+        Intent intent = getIntent();
+        userName = findViewById(R.id.userName);
+        userName.setText(intent.getStringExtra("username"));
 
-//        ListView moment = findViewById(R.id.momentsList);
-//        MyListView moment = findViewById(R.id.momentsList);
-//        List<String> list = Arrays.asList("ax","b","c","d","e","f","ax","b","c","d","e","f");
-//        ArrayAdapter<String> myAdapter1 = new ArrayAdapter<String>(PYQActivity.this, R.layout.single_moment,list);
-//        MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,list);
-//        moment.setAdapter(momentAdapter);
+        moment = findViewById(R.id.momentsList);
+        // ListView加footer
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View footerView = inflater.inflate(R.layout.listview_footer, null);
+        moment.addFooterView(footerView);
+        //服务端获取朋友圈信息展示出来
+        getMoments();
     }
 
     public void getMoments(){
@@ -107,8 +110,6 @@ public class PYQActivity extends AppCompatActivity {
     }
 
     public void showMomentsList(List<JSONObject> momentsList){
-        MyListView moment = findViewById(R.id.momentsList);
-        //TODO 重写momentAdapter
         MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,momentsList);
         moment.setAdapter(momentAdapter);
     }
@@ -126,7 +127,7 @@ public class PYQActivity extends AppCompatActivity {
             //TODO 发朋友圈界面
 //                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PYQActivity.this,PostMoment.class);
-//                intent.putExtra("userName",userName.getText().toString());
+                intent.putExtra("userName",userName.getText().toString());
                 startActivityForResult(intent,1);
                 break;
             case android.R.id.home:

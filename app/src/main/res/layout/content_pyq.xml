@@ -24,11 +24,13 @@
         <!--&gt;-->
     <!--</ListView>-->
     <!--重写的ListView 不滚动-->
-    <Model.MyListView
-        android:id="@+id/momentsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="10dp">
-    </Model.MyListView>
+        <Model.MyListView
+            android:id="@+id/momentsList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="10dp">
+        </Model.MyListView>
+
+
 
 </android.support.v4.widget.NestedScrollView>

@@ -136,6 +136,7 @@ public class PostMoment extends AppCompatActivity {
                 return false;
             }
         });
+        Log.i("Ready to post moment",moment.toString());
         //发送http
         String url = "http://172.20.10.2:8080/android_http_servers/Moments";
         myHttp.Post(moment,uploadHandler,url);
