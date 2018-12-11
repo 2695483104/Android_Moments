@@ -14,15 +14,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import Model.HttpHelp;
 import Model.MomentAdapter;
 import Model.MyHttp;
 import Model.MyListView;
+import Model.userHelp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,25 +46,56 @@ public class PYQActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.white_back);
         }
 
-//        从主界面接收用户名
+        //从主界面接收用户名
         Intent intent = getIntent();
         userName = findViewById(R.id.userName);
-        userName.setText(intent.getStringExtra("username"));
+        userName.setText(intent.getStringExtra(userHelp.userName));
 
-        moment = findViewById(R.id.momentsList);
         // ListView加footer
+        moment = findViewById(R.id.momentsList);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View footerView = inflater.inflate(R.layout.listview_footer, null);
         moment.addFooterView(footerView);
+
         //服务端获取朋友圈信息展示出来
-        getMoments();
+        showMoment();
     }
 
-    public void getMoments(){
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_pyq,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.item_camera:
+//                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(PYQActivity.this,PostMoment.class);
+                intent.putExtra(userHelp.userName,userName.getText().toString());
+                startActivityForResult(intent,1);
+                break;
+            case android.R.id.home:
+//                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
+                PYQActivity.this.finish();
+                break;
+            default:
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        showMoment();
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void showMoment(){
         JSONObject getMoment = new JSONObject();
         try {
-            getMoment.put("requestCode",1);//requestCode 1 获取朋友圈信息
-            getMoment.put("userName",userName.getText().toString());
+            getMoment.put(userHelp.requestCode,userHelp.requestCode_get_moment);//requestCode 1 获取朋友圈信息
+            getMoment.put(userHelp.userName,userName.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
             Log.i("请求moment","用户名信息存入JSON异常");
@@ -99,50 +131,18 @@ public class PYQActivity extends AppCompatActivity {
                         showMomentsList(momentsList);
                         break;
                     default:
-                        Toast.makeText(PYQActivity.this, "网络连接失败" , Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(PYQActivity.this, "网络连接失败" , Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
         });
         //发送http
-        String url = "http://172.20.10.2:8080/android_http_servers/Moments";
-        myHttp.Post(getMoment,momentHandler,url);
+        myHttp.Post(getMoment,momentHandler, HttpHelp.momentURL);
     }
 
     public void showMomentsList(List<JSONObject> momentsList){
         MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,momentsList);
         moment.setAdapter(momentAdapter);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_pyq,menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.item_camera:
-            //TODO 发朋友圈界面
-//                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(PYQActivity.this,PostMoment.class);
-                intent.putExtra("userName",userName.getText().toString());
-                startActivityForResult(intent,1);
-                break;
-            case android.R.id.home:
-//                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
-                PYQActivity.this.finish();
-                break;
-
-        }
-        return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getMoments();
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

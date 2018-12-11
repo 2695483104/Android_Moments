@@ -92,4 +92,18 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_pyq">My Moments</string>
+
+    <string name="login_text_activity_main">LOGIN</string>
+    <string name="register_text_activity_main">REGISTER</string>
+    <string name="name_input_check_error_info">用户名不能为空</string>
+    <string name="passwd_input_check_error_info">密码长度不能小于6</string>
+    <string name="phone_input_check_error_info">电话号码应为11位</string>
+    <string name="login_success_toast_activity_main">Login Success</string>
+    <string name="login_fail_toast_activity_main">用户名或密码错误</string>
+    <string name="register_success_toast_activity_main">Register Success</string>
+    <string name="register_fail_toast_activity_main">Register fail</string>
+    <string name="register_input_check_error_info">注册信息有误</string>
+    <string name="posting_moment_toast_activity_post_moment">Sending …</string>
+    <string name="moment_post_fail_toast_activity_post_moment">post failed</string>
+
 </resources>

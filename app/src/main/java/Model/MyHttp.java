@@ -17,7 +17,7 @@ import java.net.URL;
 
 public class MyHttp {
 
-    URL url = null;
+    private URL url = null;
     public void Post(final JSONObject para, final Handler handler, final String urlString){
 
         //创建url对象
@@ -27,7 +27,7 @@ public class MyHttp {
                 url = new URL(urlString);
             } else {
                 Log.i("无指定URLPost","创建默认URL对象");
-                url = new URL("http://172.20.10.2:8080/android_http_servers/User");
+                url = new URL(HttpHelp.userURL);
             }
         }catch (MalformedURLException e) {
             e.printStackTrace();
@@ -42,16 +42,16 @@ public class MyHttp {
                     // 打开一个HttpURLConnection连接
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                     // 设置为Post请求,POST要大写
-                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestMethod(String.valueOf(HttpHelp.Method_POST));
 //                    httpURLConnection.setRequestMethod("GET");
                     // 设置连接主机超时时间
-                    httpURLConnection.setConnectTimeout(5 * 1000);
+                    httpURLConnection.setConnectTimeout(HttpHelp.TIME_OUT);
                     //设置从主机读取数据超时
-                    httpURLConnection.setReadTimeout(5 * 1000);
+                    httpURLConnection.setReadTimeout(HttpHelp.TIME_OUT);
                     //设置编码格式utf-8 防止中文乱码 已在服务器端设置 注释掉也行
-                    httpURLConnection.setRequestProperty("Content-type", "text/html");
-                    httpURLConnection.setRequestProperty("Accept-Charset", "utf-8");
-                    httpURLConnection.setRequestProperty("contentType", "utf-8");
+                    httpURLConnection.setRequestProperty(HttpHelp.request_roperty_content_type, HttpHelp.content_type_text_html);
+                    httpURLConnection.setRequestProperty(HttpHelp.request_roperty_accept_character, HttpHelp.character_type_utf_8);
+                    httpURLConnection.setRequestProperty(HttpHelp.request_roperty_contentType, HttpHelp.character_type_utf_8);
                     //设置可以写请求的内容 上传
                     httpURLConnection.setDoInput(true);//下载
                     httpURLConnection.setDoOutput(true);//上传
@@ -64,7 +64,7 @@ public class MyHttp {
                     Log.i("子线程http请求",httpURLConnection.toString());
 
                     //判断请求是否成功
-                    if(httpURLConnection.getResponseCode() == 200){
+                    if(httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
                         Log.i("http","请求成功");
                         /*
                         获取返回的数据
@@ -74,7 +74,6 @@ public class MyHttp {
                         */
                         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(),"UTF-8"));
 
-
                         //将返回的数据InputStream转换为JSONObject
                         StringBuilder stringBuilder = new StringBuilder();
                         String inputStr;
@@ -82,7 +81,7 @@ public class MyHttp {
                             stringBuilder.append(inputStr);
                         }
                         Log.i("子线程收到数据转stringBuilder",stringBuilder.toString());
-                        JSONArray jsonArray = new JSONArray(stringBuilder.toString());;
+                        JSONArray jsonArray = new JSONArray(stringBuilder.toString());
                         Log.i("收到的数据转JSONArray",jsonArray.toString());
                         //返回JSONObject到主线程
                         Message responseJSON = new Message();

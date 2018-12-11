@@ -19,7 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
+import Model.HttpHelp;
 import Model.MyHttp;
+import Model.userHelp;
 
 public class PostMoment extends AppCompatActivity {
 
@@ -28,7 +32,7 @@ public class PostMoment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_moment);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.postToolbar);
+        Toolbar toolbar = findViewById(R.id.postToolbar);
         setSupportActionBar(toolbar);
         //返回按钮
         ActionBar actionBar = getSupportActionBar();
@@ -62,8 +66,8 @@ public class PostMoment extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.item_post:
-                //TODO 发朋友圈
-                Toast.makeText(PostMoment.this,"Sending ... ",Toast.LENGTH_SHORT).show();
+                // 发朋友圈
+                Toast.makeText(PostMoment.this,R.string.posting_moment_toast_activity_post_moment,Toast.LENGTH_SHORT).show();
                 uploadMoment();
                 this.finish();
                 break;
@@ -87,11 +91,11 @@ public class PostMoment extends AppCompatActivity {
         //接收从上一个界面传来到用户名
         Intent intent = getIntent();
         try {
-            moment.put("requestCode",2);//requestCode 2 上传朋友圈信息
+            moment.put(userHelp.requestCode,userHelp.requestCode_post_moment);//requestCode 2 上传朋友圈信息
             //传入用户名！
-            moment.put("userName",intent.getStringExtra("userName"));
+            moment.put(userHelp.userName,intent.getStringExtra(userHelp.userName));
             //传入文本
-            moment.put("text",text);
+            moment.put(userHelp.text,text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -111,12 +115,12 @@ public class PostMoment extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("post主线程hander收到的数据",response.toString());
+                        Log.i("post主线程hander收到的数据",Objects.requireNonNull(response).toString());
                         //朋友圈发送成功情况
                         Boolean postSuccess = false;
                         //获取JSONObject中用发朋友圈返回的结果
                         try {
-                            postSuccess = response.getBoolean("postResult");
+                            postSuccess = response.getBoolean(userHelp.postResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i("upload Handle","JSONObject.getBoolean获取发朋友圈返回结果异常");
@@ -130,7 +134,7 @@ public class PostMoment extends AppCompatActivity {
                             PostMoment.this.setResult(1,result);
                             PostMoment.this.finish();
                         }else{
-                            Toast.makeText(PostMoment.this,"post failed",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(PostMoment.this,R.string.moment_post_fail_toast_activity_post_moment,Toast.LENGTH_SHORT).show();
                         }
                 }
                 return false;
@@ -138,8 +142,7 @@ public class PostMoment extends AppCompatActivity {
         });
         Log.i("Ready to post moment",moment.toString());
         //发送http
-        String url = "http://172.20.10.2:8080/android_http_servers/Moments";
-        myHttp.Post(moment,uploadHandler,url);
+        myHttp.Post(moment,uploadHandler,HttpHelp.momentURL);
 
     }
 }

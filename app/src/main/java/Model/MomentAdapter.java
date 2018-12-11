@@ -2,10 +2,6 @@ package Model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.LruCache;
@@ -24,29 +20,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class MomentAdapter extends ArrayAdapter {
 
     private int resourceID;
     private ListView listView;
-    String id = null;
     private LruCache<String, Bitmap> imageCache;
 
 
     public MomentAdapter(@NonNull Context context, int resource, @NonNull List objects) {
         super(context, resource, objects);
         resourceID = resource;
-        //设置LruCache缓存为最大缓存的1／2；
+        //设置LruCache缓存为最大缓存的1／8；
         int maxCache = (int) Runtime.getRuntime().maxMemory();
-        int cacheSize = maxCache / 2;
+        int cacheSize = maxCache / 8;
         imageCache = new LruCache<String, Bitmap>(cacheSize) {
             @Override
             protected int sizeOf(String key, Bitmap value) {
@@ -72,6 +62,7 @@ Log.e("getView","---------------");
             int[] R_id_images = {R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.image5,R.id.image6,R.id.image7,R.id.image8,R.id.image9};
             for (int i=0;i<9;i++){
                 viewHolder.images[i] = view.findViewById(R_id_images[i]);
+                //TODO 解决了多次调用 在这里测试GONE
 //                viewHolder.images[i].setVisibility(View.GONE);
             }
             view.setTag(viewHolder);
@@ -82,18 +73,16 @@ Log.e("getView","---------------");
 
         //获取每条朋友圈JSON数据
         JSONObject moment = (JSONObject) getItem(position);
-
         //从JSON取数据
         String iconURL = null;
         String text = null;
-        JSONArray imagesJSONArry = null;
+        JSONArray imagesJSONArry ;
         ArrayList<String> imagesList = new ArrayList<>();
         try {
-            iconURL = moment.getString("icon");
-            id = text = moment.getString("text");
-            imagesJSONArry = (JSONArray) moment.get("images");
+            iconURL = Objects.requireNonNull(moment).getString(String.valueOf(MomentItem.icon));
+            text = moment.getString(String.valueOf(MomentItem.text));
+            imagesJSONArry = (JSONArray) moment.get(String.valueOf(MomentItem.images));
             for (int i=0;i<imagesJSONArry.length();i++){
-                String temp = imagesJSONArry.get(i).toString();
                 imagesList.add(imagesJSONArry.get(i).toString());
             }
         } catch (JSONException e) {
@@ -142,7 +131,7 @@ Log.e("getView","---------------");
         viewHolder.text.setText(text);
 
         // 图片--如果本地已有缓存，就从本地读取，否则从网络请求数据
-        if (imageCache.get(iconURL) != null) {
+        if (imageCache.get(Objects.requireNonNull(iconURL)) != null) {
             viewHolder.icon.setImageBitmap(imageCache.get(iconURL));
             Log.i("缓存中取图片",iconURL);
         } else {
