@@ -61,12 +61,20 @@ public class PYQActivity extends AppCompatActivity {
         showMoment();
     }
 
+    /*
+     * 加载右上角相机Item
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_pyq,menu);
         return true;
     }
 
+    /*
+     * actionBar
+     * 左上角返回键 finish当前activity
+     * 右上角相机 跳转编辑朋友圈界面
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -85,12 +93,19 @@ public class PYQActivity extends AppCompatActivity {
         return true;
     }
 
+    /*
+     *成功发送朋友圈后返回自动刷新
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         showMoment();
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    /**
+     * 从服务端获取朋友圈信息
+     * 调用showMomentsList展示
+     */
     public void showMoment(){
         JSONObject getMoment = new JSONObject();
         try {
@@ -140,6 +155,11 @@ public class PYQActivity extends AppCompatActivity {
         myHttp.Post(getMoment,momentHandler, HttpHelp.momentURL);
     }
 
+    /**
+     * 接收获取到的朋友圈信息
+     * 用ListView展示出来
+     * @param momentsList showMoment函数获取到到朋友圈信息
+     */
     public void showMomentsList(List<JSONObject> momentsList){
         MomentAdapter momentAdapter = new MomentAdapter(PYQActivity.this, R.layout.single_moment,momentsList);
         moment.setAdapter(momentAdapter);

@@ -15,9 +15,20 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 自定义网络请求类
+ * 在子线程中实现
+ */
 public class MyHttp {
 
     private URL url = null;
+
+    /**
+     * Post方法发送请求
+     * @param para 请求要携带的参数
+     * @param handler 请求结果返回的数据会包装成JSONArray 返回给主线程用于接收的Handler
+     * @param urlString 要请求的地址 可以为空
+     */
     public void Post(final JSONObject para, final Handler handler, final String urlString){
 
         //创建url对象
@@ -98,6 +109,11 @@ public class MyHttp {
             }
         }.start();
     }
+
+    /**
+     * 不指定URL地址的Post方法
+     * 默认访问用户注册验证地址
+     */
     public void Post(final JSONObject para, final Handler handler){
         Post(para,handler,null);
     }

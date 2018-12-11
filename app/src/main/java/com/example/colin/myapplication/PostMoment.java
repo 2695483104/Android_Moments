@@ -40,6 +40,7 @@ public class PostMoment extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.black_back);
         }
+        //分享到QQ空间小按钮
         final ImageView qzone = findViewById(R.id.qzone);
         qzone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,12 +57,20 @@ public class PostMoment extends AppCompatActivity {
         });
     }
 
+    /*
+     * 加载编辑朋友圈界面右上角 post按钮
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_post,menu);
         return true;
     }
 
+    /*
+     * actionBar
+     * 左边返回按钮 finish当前activity
+     * 右边Post 发送朋友圈
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -80,7 +89,9 @@ public class PostMoment extends AppCompatActivity {
         return true;
     }
 
-    //发朋友圈到服务器
+    /**
+     * 发朋友圈信息到服务器
+     */
     public void uploadMoment(){
         //获取朋友圈文字
         TextView momentText = findViewById(R.id.momentText);

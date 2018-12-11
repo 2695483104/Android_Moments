@@ -62,7 +62,6 @@ Log.e("getView","---------------");
             int[] R_id_images = {R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.image5,R.id.image6,R.id.image7,R.id.image8,R.id.image9};
             for (int i=0;i<9;i++){
                 viewHolder.images[i] = view.findViewById(R_id_images[i]);
-                //TODO 解决了多次调用 在这里测试GONE
 //                viewHolder.images[i].setVisibility(View.GONE);
             }
             view.setTag(viewHolder);

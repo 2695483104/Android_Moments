@@ -115,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    //登录&注册切换方法
+
+    /**
+     * 登录&注册界面切换方法
+     */
     class swapOnClickListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
@@ -129,6 +132,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 展示设置登录界面所需的控件及文本 隐藏其他
+     */
     public void toLoginLayout(){
         icon.setVisibility(View.VISIBLE);
         registerIcon.setVisibility(View.GONE);
@@ -138,6 +144,10 @@ public class MainActivity extends AppCompatActivity {
         swapText.setText(R.string.register_text_activity_main);//REGISTER
         isLogin = true;
     }
+
+    /**
+     * 展示注册界面所需的控件及文本 隐藏其他
+     */
     public void toRegisterLayout(){
         icon.setVisibility(View.GONE);
         registerIcon.setVisibility(View.VISIBLE);
@@ -150,7 +160,11 @@ public class MainActivity extends AppCompatActivity {
         registerName.requestFocus();
     }
 
-    //输入验证
+
+    /**
+     * 对注册输入的姓名进行验证
+     * @return 输入框输入的正确性
+     */
     public boolean registerNameCheck(){
         //三种方法效果一样
 //        Log.i("length=",registerName.length()+"");
@@ -164,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return !registerNameLayout.isErrorEnabled();//返回这个输入框的正确性
     }
+
+    /**
+     * 对注册输入的密码进行验证
+     * @return 输入框输入的正确性
+     */
     public boolean registerPasswordCheck() {
         if(registerPassword.length() < 6){
             registerPasswordLayout.setErrorEnabled(true);
@@ -175,6 +194,11 @@ public class MainActivity extends AppCompatActivity {
         }
         return !registerPasswordLayout.isErrorEnabled();
     }
+
+    /**
+     * 对注册输入的姓名进行验证
+     * @return 输入框输入的正确性
+     */
     public boolean registerPhoneCheck() {
         if(registerPhone.length() != 11){
             registerPhoneLayout.setErrorEnabled(true);
@@ -185,12 +209,15 @@ public class MainActivity extends AppCompatActivity {
         return !registerPhoneLayout.isErrorEnabled();
     }
 
+    /**
+     * 按钮点击事件
+     * 登录和注册的实现函数
+     */
     //登录注册实现
     class submitOnClickListener implements  View.OnClickListener{
         @Override
         public void onClick(View v){
             if(isLogin){
-
                 Log.i("按钮","登录点击");
                 //Verification
                 final EditText username = findViewById(R.id.name);
