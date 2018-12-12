@@ -140,15 +140,15 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setText(R.string.login_text_activity_main);
         swapText.setText(R.string.register_text_activity_main);
         isLogin = true;
-        registerName.setText("");
-        registerPassword.setText("");
-        registerPhone.setText("");
     }
 
     /**
      * 展示注册界面所需的控件及文本 隐藏其他
      */
     public void toRegisterLayout(){
+        registerName.setText("");
+        registerPassword.setText("");
+        registerPhone.setText("");
         icon.setVisibility(View.GONE);
         registerIcon.setVisibility(View.VISIBLE);
         loginLayout.setVisibility(View.GONE);
