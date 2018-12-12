@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * 服务端存储朋友圈信息的结构

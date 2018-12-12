@@ -1,10 +1,11 @@
-package Model;
+package model;
 
 /**
  * 用户登录&注册过程中需要用到的常量
  * 因为枚举太占用资源 官方不推荐 所以不选择用enum
  */
-public class userHelp {
+
+public class UserHelp {
     public static int requestCode_login = 1;
     public static int requestCode_register = 2;
     public static int requestCode_get_moment = 1;
@@ -19,4 +20,5 @@ public class userHelp {
     public static String registerResult = "registerResult";
     public static String text = "text";
     public static String postResult = "postResult";
+
 }

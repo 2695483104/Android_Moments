@@ -23,8 +23,8 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-import Model.MyHttp;
-import Model.userHelp;
+import model.MyHttp;
+import model.UserHelp;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -143,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
         submitButton.setText(R.string.login_text_activity_main);//LOGIN
         swapText.setText(R.string.register_text_activity_main);//REGISTER
         isLogin = true;
+        registerName.setText("");
+        registerPassword.setText("");
+        registerPhone.setText("");
     }
 
     /**
@@ -158,6 +161,9 @@ public class MainActivity extends AppCompatActivity {
         isLogin = false;
         //注册姓名文本框获取焦点
         registerName.requestFocus();
+        registerNameLayout.setErrorEnabled(false);
+        registerPasswordLayout.setErrorEnabled(false);
+        registerPhoneLayout.setErrorEnabled(false);
     }
 
 
@@ -225,10 +231,10 @@ public class MainActivity extends AppCompatActivity {
                 //登录信息存入JSON
                 JSONObject user = new JSONObject();
                 try {
-                    user.put(userHelp.requestCode, userHelp.requestCode_login);//requestCode 1 登录验证
+                    user.put(UserHelp.requestCode, UserHelp.requestCode_login);//requestCode 1 登录验证
 
-                    user.put(userHelp.userName, username.getText().toString() );
-                    user.put(userHelp.password,password.getText().toString());
+                    user.put(UserHelp.userName, username.getText().toString() );
+                    user.put(UserHelp.password,password.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i("登录","登录信息存入JSON异常");
@@ -256,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                                 Boolean legalUser = false;//用户合法性
                                 //获取JSONObject中用户合法性数据
                                 try {
-                                    legalUser = Objects.requireNonNull(response).getBoolean(userHelp.legalUser);
+                                    legalUser = Objects.requireNonNull(response).getBoolean(UserHelp.legalUser);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Log.i("登录Handle","JSONObject.getBoolean获取用户合法性异常");
@@ -268,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
 //                                    Bundle bundle = new Bundle();
 //                                    bundle.putString(String.valueOf(userHelp.userInfo.username),username.getText().toString());
 //                                    intent.putExtras(bundle);
-                                    intent.putExtra(userHelp.userName,username.getText().toString());
+                                    intent.putExtra(UserHelp.userName,username.getText().toString());
                                     startActivity(intent);
                                     password.setText("");
                                     Toast.makeText(MainActivity.this,R.string.login_success_toast_activity_main,Toast.LENGTH_SHORT).show();
@@ -294,10 +300,10 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject newUser = new JSONObject();
                 //注册信息存入JSON
                 try {
-                    newUser.put(userHelp.requestCode,userHelp.requestCode_register);//requestCode 2 注册
-                    newUser.put(userHelp.userName,registerName.getText().toString());
-                    newUser.put(userHelp.password,registerPassword.getText().toString());
-                    newUser.put(userHelp.phone,registerPhone.getText().toString());
+                    newUser.put(UserHelp.requestCode,UserHelp.requestCode_register);//requestCode 2 注册
+                    newUser.put(UserHelp.userName,registerName.getText().toString());
+                    newUser.put(UserHelp.password,registerPassword.getText().toString());
+                    newUser.put(UserHelp.phone,registerPhone.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.i("注册","注册信息存入JSON异常");
@@ -326,7 +332,7 @@ public class MainActivity extends AppCompatActivity {
                                 Boolean legalUser = false;
                                 //获取JSONObject中用户合法性数据
                                 try {
-                                    legalUser = Objects.requireNonNull(response).getBoolean(userHelp.registerResult);
+                                    legalUser = Objects.requireNonNull(response).getBoolean(UserHelp.registerResult);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                     Log.i("注册Handle","JSONObject.getBoolean获取注册信息异常");

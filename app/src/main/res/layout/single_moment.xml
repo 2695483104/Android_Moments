@@ -17,6 +17,14 @@
         android:orientation="vertical"
         >
         <TextView
+            android:id="@+id/momentUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="#0047b3"
+            android:text="user1"/>
+        <TextView
             android:id="@+id/momentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

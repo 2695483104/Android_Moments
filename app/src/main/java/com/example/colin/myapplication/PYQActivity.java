@@ -19,11 +19,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import Model.HttpHelp;
-import Model.MomentAdapter;
-import Model.MyHttp;
-import Model.MyListView;
-import Model.userHelp;
+import model.HttpHelp;
+import model.MomentAdapter;
+import model.MyHttp;
+import model.MyListView;
+import model.UserHelp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class PYQActivity extends AppCompatActivity {
         //从主界面接收用户名
         Intent intent = getIntent();
         userName = findViewById(R.id.userName);
-        userName.setText(intent.getStringExtra(userHelp.userName));
+        userName.setText(intent.getStringExtra(UserHelp.userName));
 
         // ListView加footer
         moment = findViewById(R.id.momentsList);
@@ -81,7 +81,7 @@ public class PYQActivity extends AppCompatActivity {
             case R.id.item_camera:
 //                Toast.makeText(PYQActivity.this,"camera touched",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(PYQActivity.this,PostMoment.class);
-                intent.putExtra(userHelp.userName,userName.getText().toString());
+                intent.putExtra(UserHelp.userName,userName.getText().toString());
                 startActivityForResult(intent,1);
                 break;
             case android.R.id.home:
@@ -109,8 +109,8 @@ public class PYQActivity extends AppCompatActivity {
     public void showMoment(){
         JSONObject getMoment = new JSONObject();
         try {
-            getMoment.put(userHelp.requestCode,userHelp.requestCode_get_moment);//requestCode 1 获取朋友圈信息
-            getMoment.put(userHelp.userName,userName.getText().toString());
+            getMoment.put(UserHelp.requestCode,UserHelp.requestCode_get_moment);//requestCode 1 获取朋友圈信息
+            getMoment.put(UserHelp.userName,userName.getText().toString());
         } catch (JSONException e) {
             e.printStackTrace();
             Log.i("请求moment","用户名信息存入JSON异常");

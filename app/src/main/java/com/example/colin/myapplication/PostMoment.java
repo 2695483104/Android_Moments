@@ -21,9 +21,9 @@ import org.json.JSONObject;
 
 import java.util.Objects;
 
-import Model.HttpHelp;
-import Model.MyHttp;
-import Model.userHelp;
+import model.HttpHelp;
+import model.MyHttp;
+import model.UserHelp;
 
 public class PostMoment extends AppCompatActivity {
 
@@ -102,11 +102,11 @@ public class PostMoment extends AppCompatActivity {
         //接收从上一个界面传来到用户名
         Intent intent = getIntent();
         try {
-            moment.put(userHelp.requestCode,userHelp.requestCode_post_moment);//requestCode 2 上传朋友圈信息
+            moment.put(UserHelp.requestCode,UserHelp.requestCode_post_moment);//requestCode 2 上传朋友圈信息
             //传入用户名！
-            moment.put(userHelp.userName,intent.getStringExtra(userHelp.userName));
+            moment.put(UserHelp.userName,intent.getStringExtra(UserHelp.userName));
             //传入文本
-            moment.put(userHelp.text,text);
+            moment.put(UserHelp.text,text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -131,7 +131,7 @@ public class PostMoment extends AppCompatActivity {
                         Boolean postSuccess = false;
                         //获取JSONObject中用发朋友圈返回的结果
                         try {
-                            postSuccess = response.getBoolean(userHelp.postResult);
+                            postSuccess = response.getBoolean(UserHelp.postResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i("upload Handle","JSONObject.getBoolean获取发朋友圈返回结果异常");

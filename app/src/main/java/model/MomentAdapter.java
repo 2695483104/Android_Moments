@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -57,6 +57,7 @@ Log.e("getView","---------------");
         ViewHolder viewHolder = new ViewHolder();
         if (convertView == null){
             view = LayoutInflater.from(getContext()).inflate(resourceID,parent,false);
+            viewHolder.momentUserName = view.findViewById(R.id.momentUserName);
             viewHolder.icon = view.findViewById(R.id.icon);
             viewHolder.text = view.findViewById(R.id.momentText);
             int[] R_id_images = {R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.image5,R.id.image6,R.id.image7,R.id.image8,R.id.image9};
@@ -73,12 +74,14 @@ Log.e("getView","---------------");
         //获取每条朋友圈JSON数据
         JSONObject moment = (JSONObject) getItem(position);
         //从JSON取数据
+        String momentUserName = null;
         String iconURL = null;
         String text = null;
         JSONArray imagesJSONArry ;
         ArrayList<String> imagesList = new ArrayList<>();
         try {
-            iconURL = Objects.requireNonNull(moment).getString(String.valueOf(MomentItem.icon));
+            momentUserName = Objects.requireNonNull(moment).getString("userName");
+            iconURL = moment.getString(String.valueOf(MomentItem.icon));
             text = moment.getString(String.valueOf(MomentItem.text));
             imagesJSONArry = (JSONArray) moment.get(String.valueOf(MomentItem.images));
             for (int i=0;i<imagesJSONArry.length();i++){
@@ -127,6 +130,7 @@ Log.e("getView","---------------");
         }
 
         //将view与数据绑定
+        viewHolder.momentUserName.setText(momentUserName);
         viewHolder.text.setText(text);
 
         // 图片--如果本地已有缓存，就从本地读取，否则从网络请求数据
@@ -153,6 +157,7 @@ Log.e("getView","---------------");
 
     //一个Item中的view
     class ViewHolder{
+        TextView momentUserName;
         ImageView icon;
         TextView text;
         ImageView image1;

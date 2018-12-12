@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import android.os.Handler;
 import android.os.Message;

@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class HttpHelp {
     static int TIME_OUT = 5000;
