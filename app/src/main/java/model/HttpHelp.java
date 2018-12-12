@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * Http连接需要用到的URL地址及相应的设置参数
+ */
 public class HttpHelp {
     static int TIME_OUT = 5000;
     public static String momentURL = "http://172.20.10.2:8080/android_http_servers/Moments";

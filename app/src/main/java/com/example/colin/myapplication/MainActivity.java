@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,10 +122,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             if(isLogin){
-                //is login layout now, exchange to register layout
                 toRegisterLayout();
             }else{
-                //is register layout now, exchange to login layout
                 toLoginLayout();
             }
         }
@@ -140,8 +137,8 @@ public class MainActivity extends AppCompatActivity {
         registerIcon.setVisibility(View.GONE);
         loginLayout.setVisibility(View.VISIBLE);
         registerLayout.setVisibility(View.GONE);
-        submitButton.setText(R.string.login_text_activity_main);//LOGIN
-        swapText.setText(R.string.register_text_activity_main);//REGISTER
+        submitButton.setText(R.string.login_text_activity_main);
+        swapText.setText(R.string.register_text_activity_main);
         isLogin = true;
         registerName.setText("");
         registerPassword.setText("");
@@ -156,10 +153,9 @@ public class MainActivity extends AppCompatActivity {
         registerIcon.setVisibility(View.VISIBLE);
         loginLayout.setVisibility(View.GONE);
         registerLayout.setVisibility(View.VISIBLE);
-        submitButton.setText(R.string.register_text_activity_main);//REGISTER
-        swapText.setText(R.string.login_text_activity_main);//LOGIN
+        submitButton.setText(R.string.register_text_activity_main);
+        swapText.setText(R.string.login_text_activity_main);
         isLogin = false;
-        //注册姓名文本框获取焦点
         registerName.requestFocus();
         registerNameLayout.setErrorEnabled(false);
         registerPasswordLayout.setErrorEnabled(false);
@@ -172,17 +168,13 @@ public class MainActivity extends AppCompatActivity {
      * @return 输入框输入的正确性
      */
     public boolean registerNameCheck(){
-        //三种方法效果一样
-//        Log.i("length=",registerName.length()+"");
-//        Log.i("length=",registerName.getText().length()+"");
-//        Log.i("length=",registerName.getText().toString().length()+"");
         if(registerName.length()==0){
             registerNameLayout.setErrorEnabled(true);
-            registerNameLayout.setError(getString(R.string.name_input_check_error_info));//用户名不能为空
+            registerNameLayout.setError(getString(R.string.name_input_check_error_info));
         }else{
             registerNameLayout.setErrorEnabled(false);
         }
-        return !registerNameLayout.isErrorEnabled();//返回这个输入框的正确性
+        return !registerNameLayout.isErrorEnabled();
     }
 
     /**
@@ -192,11 +184,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean registerPasswordCheck() {
         if(registerPassword.length() < 6){
             registerPasswordLayout.setErrorEnabled(true);
-            registerPasswordLayout.setError(getString(R.string.passwd_input_check_error_info));//密码长度不能小于6
+            registerPasswordLayout.setError(getString(R.string.passwd_input_check_error_info));
 
         }else{
             registerPasswordLayout.setErrorEnabled(false);
-//            registerPasswordLayout.setError(null);//输入框下会有一行空位不好看
         }
         return !registerPasswordLayout.isErrorEnabled();
     }
@@ -208,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean registerPhoneCheck() {
         if(registerPhone.length() != 11){
             registerPhoneLayout.setErrorEnabled(true);
-            registerPhoneLayout.setError(getString(R.string.phone_input_check_error_info));//电话号码应为11位
+            registerPhoneLayout.setError(getString(R.string.phone_input_check_error_info));
         }else{
             registerPhoneLayout.setErrorEnabled(false);
         }
@@ -219,36 +210,25 @@ public class MainActivity extends AppCompatActivity {
      * 按钮点击事件
      * 登录和注册的实现函数
      */
-    //登录注册实现
     class submitOnClickListener implements  View.OnClickListener{
         @Override
         public void onClick(View v){
             if(isLogin){
-                Log.i("按钮","登录点击");
-                //Verification
                 final EditText username = findViewById(R.id.name);
                 final EditText password = findViewById(R.id.password);
-                //登录信息存入JSON
                 JSONObject user = new JSONObject();
                 try {
-                    user.put(UserHelp.requestCode, UserHelp.requestCode_login);//requestCode 1 登录验证
+                    user.put(UserHelp.requestCode, UserHelp.requestCode_login);
 
                     user.put(UserHelp.userName, username.getText().toString() );
                     user.put(UserHelp.password,password.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.i("登录","登录信息存入JSON异常");
                 }
-
-                Log.i("登录","准备发送登录信息："+user.toString());
-                //发送服务器
-                //http请求
                 MyHttp myHttp = new MyHttp();
-                //handler方法
                 Handler loginHandler = new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
-//                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
                         switch(msg.what){
                             case 1:
                                 JSONArray jsonArray = (JSONArray) msg.obj;
@@ -258,22 +238,14 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-//                                Log.i("主线程hander收到的数据",response.toString());
-                                Boolean legalUser = false;//用户合法性
-                                //获取JSONObject中用户合法性数据
+                                Boolean legalUser = false;
                                 try {
                                     legalUser = Objects.requireNonNull(response).getBoolean(UserHelp.legalUser);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.i("登录Handle","JSONObject.getBoolean获取用户合法性异常");
                                 }
-                                //合法用户跳转朋友圈 非法用户提示用户名密码错误并清除密码文本框
                                 if (legalUser){
-                                    // 跳转朋友圈界面
                                     Intent intent = new Intent(MainActivity.this,PYQActivity.class);
-//                                    Bundle bundle = new Bundle();
-//                                    bundle.putString(String.valueOf(userHelp.userInfo.username),username.getText().toString());
-//                                    intent.putExtras(bundle);
                                     intent.putExtra(UserHelp.userName,username.getText().toString());
                                     startActivity(intent);
                                     password.setText("");
@@ -291,32 +263,22 @@ public class MainActivity extends AppCompatActivity {
                 myHttp.Post(user,loginHandler);
 
             }else if ( registerNameCheck() && registerPasswordCheck() && registerPhoneCheck() ){
-                //不是登录界面则是注册界面，注册界面信息填写完整才允许注册 否则提示
-//                Log.i("按钮","注册点击");
-                // register
                 registerName = findViewById(R.id.registerName);
                 registerPassword = findViewById(R.id.registerPassword);
                 registerPhone = findViewById(R.id.registerPhone);
                 JSONObject newUser = new JSONObject();
-                //注册信息存入JSON
                 try {
-                    newUser.put(UserHelp.requestCode,UserHelp.requestCode_register);//requestCode 2 注册
+                    newUser.put(UserHelp.requestCode,UserHelp.requestCode_register);
                     newUser.put(UserHelp.userName,registerName.getText().toString());
                     newUser.put(UserHelp.password,registerPassword.getText().toString());
                     newUser.put(UserHelp.phone,registerPhone.getText().toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Log.i("注册","注册信息存入JSON异常");
                 }
-                Log.i("注册","准备发送注册信息："+newUser.toString());
-                // 注册上传 发送服务器
-                //http请求
                 MyHttp myHttp = new MyHttp();
-                //handler方法
                 Handler registerHandler = new Handler(new Handler.Callback() {
                     @Override
                     public boolean handleMessage(Message msg) {
-//                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
                         switch(msg.what){
                             case 1:
                                 JSONArray jsonArray = (JSONArray) msg.obj;
@@ -326,18 +288,12 @@ public class MainActivity extends AppCompatActivity {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
-                                // 在这里进行UI操作，将结果显示到界面上
-//                                Log.i("主线程hander收到的数据",response.toString());
-                                //注册成功？
                                 Boolean legalUser = false;
-                                //获取JSONObject中用户合法性数据
                                 try {
                                     legalUser = Objects.requireNonNull(response).getBoolean(UserHelp.registerResult);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.i("注册Handle","JSONObject.getBoolean获取注册信息异常");
                                 }
-                                //注册成功提并转登录页面 失败提示
                                 if (legalUser){
                                     toLoginLayout();
                                     EditText username = findViewById(R.id.name);
@@ -351,12 +307,10 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 break;
                             default:
-//                                 Toast.makeText(MainActivity.this, "网络连接失败" , Toast.LENGTH_SHORT).show();
                         }
                         return false;
                     }
                 });
-                //发送http
                 myHttp.Post(newUser,registerHandler);
             }else{
                 Toast.makeText(MainActivity.this, R.string.register_input_check_error_info , Toast.LENGTH_SHORT).show();

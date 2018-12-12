@@ -34,7 +34,6 @@ public class MomentAdapter extends ArrayAdapter {
     public MomentAdapter(@NonNull Context context, int resource, @NonNull List objects) {
         super(context, resource, objects);
         resourceID = resource;
-        //设置LruCache缓存为最大缓存的1／8；
         int maxCache = (int) Runtime.getRuntime().maxMemory();
         int cacheSize = maxCache / 8;
         imageCache = new LruCache<String, Bitmap>(cacheSize) {
@@ -48,7 +47,6 @@ public class MomentAdapter extends ArrayAdapter {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-Log.e("getView","---------------");
         if (listView == null) {
             listView = (ListView) parent;
         }
@@ -63,7 +61,6 @@ Log.e("getView","---------------");
             int[] R_id_images = {R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.image5,R.id.image6,R.id.image7,R.id.image8,R.id.image9};
             for (int i=0;i<9;i++){
                 viewHolder.images[i] = view.findViewById(R_id_images[i]);
-//                viewHolder.images[i].setVisibility(View.GONE);
             }
             view.setTag(viewHolder);
         }else{
@@ -71,16 +68,14 @@ Log.e("getView","---------------");
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //获取每条朋友圈JSON数据
         JSONObject moment = (JSONObject) getItem(position);
-        //从JSON取数据
         String momentUserName = null;
         String iconURL = null;
         String text = null;
         JSONArray imagesJSONArry ;
         ArrayList<String> imagesList = new ArrayList<>();
         try {
-            momentUserName = Objects.requireNonNull(moment).getString("userName");
+            momentUserName = Objects.requireNonNull(moment).getString(MomentItem.userName);
             iconURL = moment.getString(String.valueOf(MomentItem.icon));
             text = moment.getString(String.valueOf(MomentItem.text));
             imagesJSONArry = (JSONArray) moment.get(String.valueOf(MomentItem.images));
@@ -91,11 +86,9 @@ Log.e("getView","---------------");
             e.printStackTrace();
         }
 
-        // 跟具图片数量设置图片排版
         for (int i=0;i<9;i++){
                 viewHolder.images[i].setVisibility(View.GONE);
         }
-        Log.i("imagesList Switch-",imagesList.size()+"");
         switch (imagesList.size()){
             case 9:
                 viewHolder.images[8].setVisibility(View.VISIBLE);
@@ -129,20 +122,13 @@ Log.e("getView","---------------");
                 break;
         }
 
-        //将view与数据绑定
         viewHolder.momentUserName.setText(momentUserName);
         viewHolder.text.setText(text);
-
-        // 图片--如果本地已有缓存，就从本地读取，否则从网络请求数据
         if (imageCache.get(Objects.requireNonNull(iconURL)) != null) {
             viewHolder.icon.setImageBitmap(imageCache.get(iconURL));
-            Log.i("缓存中取图片",iconURL);
         } else {
-            Log.i("下载图片",iconURL);
             LoadImage(viewHolder.icon,iconURL);
         }
-
-        Log.i("加载多图",imagesList.size()+"");
         for (int i = 0;i < imagesList.size();i++){
             String multiImages = imagesList.get(i);
             if (imageCache.get(multiImages) != null) {
@@ -155,7 +141,6 @@ Log.e("getView","---------------");
         return view;
     }
 
-    //一个Item中的view
     class ViewHolder{
         TextView momentUserName;
         ImageView icon;
@@ -174,13 +159,9 @@ Log.e("getView","---------------");
 
     private void LoadImage(ImageView img, String path)
     {
-        //异步加载图片资源
         AsyncTaskImageLoad async=new AsyncTaskImageLoad(img,imageCache);
-        //执行异步加载，并把图片的路径传送过去
         async.execute(path);
     }
-
-
 }
 
 

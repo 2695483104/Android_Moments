@@ -27,7 +27,7 @@
         android:textColor="#ffffff"
         android:textStyle="bold"
         android:visibility="gone"/>
-<!--Login Layout-->
+
     <LinearLayout
         android:id="@+id/loginLayout"
         android:layout_width="300dp"
@@ -93,7 +93,7 @@
         </LinearLayout>
 
     </LinearLayout>
-<!--Register Layout-->
+
     <LinearLayout
         android:id="@+id/registerLayout"
         android:layout_width="300dp"
@@ -102,7 +102,6 @@
         android:layout_gravity="center_horizontal"
         android:visibility="gone"
         >
-        <!--android:visibility="gone"-->
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="300dp"

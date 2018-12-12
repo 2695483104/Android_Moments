@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,13 +33,11 @@ public class PostMoment extends AppCompatActivity {
         setContentView(R.layout.activity_post_moment);
         Toolbar toolbar = findViewById(R.id.postToolbar);
         setSupportActionBar(toolbar);
-        //返回按钮
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.black_back);
         }
-        //分享到QQ空间小按钮
         final ImageView qzone = findViewById(R.id.qzone);
         qzone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,7 +54,7 @@ public class PostMoment extends AppCompatActivity {
         });
     }
 
-    /*
+    /**
      * 加载编辑朋友圈界面右上角 post按钮
      */
     @Override
@@ -66,7 +63,7 @@ public class PostMoment extends AppCompatActivity {
         return true;
     }
 
-    /*
+    /**
      * actionBar
      * 左边返回按钮 finish当前activity
      * 右边Post 发送朋友圈
@@ -81,7 +78,6 @@ public class PostMoment extends AppCompatActivity {
                 this.finish();
                 break;
             case android.R.id.home:
-//                Toast.makeText(PYQActivity.this,"home touched",Toast.LENGTH_SHORT).show();
                 PostMoment.this.finish();
                 break;
 
@@ -93,30 +89,22 @@ public class PostMoment extends AppCompatActivity {
      * 发朋友圈信息到服务器
      */
     public void uploadMoment(){
-        //获取朋友圈文字
         TextView momentText = findViewById(R.id.momentText);
         String text = momentText.getText().toString();
-
-        //新建要发送到JSON
         JSONObject moment = new JSONObject();
-        //接收从上一个界面传来到用户名
         Intent intent = getIntent();
         try {
-            moment.put(UserHelp.requestCode,UserHelp.requestCode_post_moment);//requestCode 2 上传朋友圈信息
-            //传入用户名！
+            moment.put(UserHelp.requestCode,UserHelp.requestCode_post_moment);
             moment.put(UserHelp.userName,intent.getStringExtra(UserHelp.userName));
-            //传入文本
             moment.put(UserHelp.text,text);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        //发送
         MyHttp myHttp = new MyHttp();
         Handler uploadHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
-//                        Toast.makeText(MainActivity.this,"inHandler",Toast.LENGTH_SHORT).show();
                 switch(msg.what){
                     case 1:
                         JSONArray jsonArray = (JSONArray) msg.obj;
@@ -126,20 +114,13 @@ public class PostMoment extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.i("post主线程hander收到的数据",Objects.requireNonNull(response).toString());
-                        //朋友圈发送成功情况
                         Boolean postSuccess = false;
-                        //获取JSONObject中用发朋友圈返回的结果
                         try {
-                            postSuccess = response.getBoolean(UserHelp.postResult);
+                            postSuccess = Objects.requireNonNull(response).getBoolean(UserHelp.postResult);
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.i("upload Handle","JSONObject.getBoolean获取发朋友圈返回结果异常");
                         }
-                        //朋友圈发送成功提示 返回上一层 失败提示
                         if (postSuccess){
-//                            Toast.makeText(PostMoment.this,"post Success",Toast.LENGTH_SHORT).show();
-                            Log.i("postSuccess","返回intent数据");
                             Intent result = new Intent();
                             result.putExtra("postSuccess","true");
                             PostMoment.this.setResult(1,result);
@@ -151,8 +132,6 @@ public class PostMoment extends AppCompatActivity {
                 return false;
             }
         });
-        Log.i("Ready to post moment",moment.toString());
-        //发送http
         myHttp.Post(moment,uploadHandler,HttpHelp.momentURL);
 
     }

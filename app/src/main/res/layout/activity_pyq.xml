@@ -8,7 +8,6 @@
     tools:context=".PYQActivity"
     >
 
-    <!--AppBarLayout是负责素响应滚动细节的布局。-->
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -16,8 +15,6 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <!--CollapsingToolbarLayout负责折叠工具栏的布局-->
-        <!--app:contentScrim设置折叠时工具栏布局的颜色-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
@@ -36,7 +33,7 @@
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 />
-            <!--app:layout_collapseMode="pin"：CollapsingToolbarLayout折叠后，此布局将固定在顶部。-->
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
@@ -46,15 +43,6 @@
                 android:gravity="center"
                 app:contentInsetStart="0dp"
                 app:title="PYQ">
-                <!--居中-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:textSize="20dp"-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:text="Moments"-->
-                    <!--/>-->
                 <TextView
                     android:id="@+id/newTitle"
                     android:layout_width="match_parent"
@@ -105,20 +93,6 @@
             android:layout_alignParentEnd="true"
             />
     </RelativeLayout>
-    <!--app:layout_anchor这个设置锚定在了AppBarLayout下方-->
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/fab"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--app:layout_anchor="@id/app_bar"-->
-    <!--app:layout_anchorGravity="bottom|end"-->
-    <!--app:srcCompat="@android:drawable/ic_dialog_email"/>-->
-
-
-
-    <!--与AppbarLayout组合的滚动布局NestedScrollView
-    里面要设置app:layout_behavior="@string/appbar_scrolling_view_behavior"不然没有效果-->
     <include layout="@layout/content_pyq" />
 
 
