@@ -127,14 +127,14 @@ public class MomentAdapter extends ArrayAdapter {
         if (imageCache.get(Objects.requireNonNull(iconURL)) != null) {
             viewHolder.icon.setImageBitmap(imageCache.get(iconURL));
         } else {
-            LoadImage(viewHolder.icon,iconURL);
+            loadImage(viewHolder.icon,iconURL);
         }
         for (int i = 0;i < imagesList.size();i++){
             String multiImages = imagesList.get(i);
             if (imageCache.get(multiImages) != null) {
                 viewHolder.images[i].setImageBitmap(imageCache.get(multiImages));
             } else {
-                LoadImage(viewHolder.images[i],multiImages);
+                loadImage(viewHolder.images[i],multiImages);
             }
         }
 
@@ -157,7 +157,7 @@ public class MomentAdapter extends ArrayAdapter {
         ImageView [] images = {image1,image2,image3,image4,image5,image6,image7,image8,image9};
     }
 
-    private void LoadImage(ImageView img, String path)
+    private void loadImage(ImageView img, String path)
     {
         AsyncTaskImageLoad async=new AsyncTaskImageLoad(img,imageCache);
         async.execute(path);

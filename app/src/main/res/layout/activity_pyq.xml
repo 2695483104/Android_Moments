@@ -80,7 +80,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:src="#eeeeee"
+            android:src="#ffffff"
             android:layout_alignBottom="@+id/userIcon" />
         <ImageView
             android:id="@+id/userIcon"

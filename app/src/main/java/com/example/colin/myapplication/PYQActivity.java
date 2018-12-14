@@ -53,7 +53,6 @@ public class PYQActivity extends AppCompatActivity {
         moment.addFooterView(footerView);
         showMoment();
     }
-
     /**
      * 加载右上角相机Item
      */
@@ -62,7 +61,6 @@ public class PYQActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_pyq,menu);
         return true;
     }
-
     /**
      * actionBar
      * 左上角返回键 finish当前activity

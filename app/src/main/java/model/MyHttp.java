@@ -19,9 +19,7 @@ import java.net.URL;
  * 在子线程中实现
  */
 public class MyHttp {
-
     private URL url = null;
-
     /**
      * Post方法发送请求
      * @param para 请求要携带的参数
@@ -39,7 +37,6 @@ public class MyHttp {
         }catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         new Thread(){
             @Override
             public void run() {
@@ -58,7 +55,7 @@ public class MyHttp {
                     }
                     httpURLConnection.connect();
                     if(httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(),"UTF-8"));
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream(),HttpHelp.character_type_utf_8));
                         StringBuilder stringBuilder = new StringBuilder();
                         String inputStr;
                         while ((inputStr = bufferedReader.readLine()) != null){

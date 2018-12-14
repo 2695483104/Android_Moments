@@ -219,7 +219,6 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject user = new JSONObject();
                 try {
                     user.put(UserHelp.requestCode, UserHelp.requestCode_login);
-
                     user.put(UserHelp.userName, username.getText().toString() );
                     user.put(UserHelp.password,password.getText().toString());
                 } catch (JSONException e) {
@@ -259,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                         return false;
                     }
                 });
-                //发送http
                 myHttp.Post(user,loginHandler);
 
             }else if ( registerNameCheck() && registerPasswordCheck() && registerPhoneCheck() ){

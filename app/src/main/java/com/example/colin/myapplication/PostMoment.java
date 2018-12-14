@@ -53,7 +53,6 @@ public class PostMoment extends AppCompatActivity {
             }
         });
     }
-
     /**
      * 加载编辑朋友圈界面右上角 post按钮
      */
@@ -62,7 +61,6 @@ public class PostMoment extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_post,menu);
         return true;
     }
-
     /**
      * actionBar
      * 左边返回按钮 finish当前activity
