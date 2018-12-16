@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,14 +54,16 @@ public class MomentAdapter extends ArrayAdapter {
 
         View view;
         ViewHolder viewHolder = new ViewHolder();
+        List<ImageView> images = null;
         if (convertView == null){
             view = LayoutInflater.from(getContext()).inflate(resourceID,parent,false);
             viewHolder.momentUserName = view.findViewById(R.id.momentUserName);
             viewHolder.icon = view.findViewById(R.id.icon);
             viewHolder.text = view.findViewById(R.id.momentText);
             int[] R_id_images = {R.id.image1,R.id.image2,R.id.image3,R.id.image4,R.id.image5,R.id.image6,R.id.image7,R.id.image8,R.id.image9};
+            images = Arrays.asList(viewHolder.image1,viewHolder.image2,viewHolder.image3,viewHolder.image4,viewHolder.image5,viewHolder.image6,viewHolder.image7,viewHolder.image8,viewHolder.image9);
             for (int i=0;i<9;i++){
-                viewHolder.images[i] = view.findViewById(R_id_images[i]);
+                images.set(i,(ImageView) view.findViewById(R_id_images[i]));
             }
             view.setTag(viewHolder);
         }else{
@@ -87,34 +90,34 @@ public class MomentAdapter extends ArrayAdapter {
         }
 
         for (int i=0;i<9;i++){
-                viewHolder.images[i].setVisibility(View.GONE);
+                images.get(i).setVisibility(View.GONE);
         }
         switch (imagesList.size()){
             case 9:
-                viewHolder.images[8].setVisibility(View.VISIBLE);
+                images.get(8).setVisibility(View.VISIBLE);
             case 8:
-                viewHolder.images[7].setVisibility(View.VISIBLE);
+                images.get(7).setVisibility(View.VISIBLE);
             case 7:
-                viewHolder.images[6].setVisibility(View.VISIBLE);
+                images.get(6).setVisibility(View.VISIBLE);
             case 6:
-                viewHolder.images[5].setVisibility(View.VISIBLE);
+                images.get(5).setVisibility(View.VISIBLE);
             case 5:
-                viewHolder.images[4].setVisibility(View.VISIBLE);
+                images.get(4).setVisibility(View.VISIBLE);
             case 4:
-                viewHolder.images[3].setVisibility(View.VISIBLE);
+                images.get(3).setVisibility(View.VISIBLE);
             case 3:
-                viewHolder.images[2].setVisibility(View.VISIBLE);
-                viewHolder.images[1].setVisibility(View.VISIBLE);
-                viewHolder.images[0].setVisibility(View.VISIBLE);
+                images.get(2).setVisibility(View.VISIBLE);
+                images.get(1).setVisibility(View.VISIBLE);
+                images.get(0).setVisibility(View.VISIBLE);
                 break;
             case 2:
-                viewHolder.images[1].setVisibility(View.VISIBLE);
-                ViewGroup.LayoutParams params1 = viewHolder.images[1].getLayoutParams();
+                images.get(1).setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams params1 = images.get(1).getLayoutParams();
                 params1.width = 394;
                 params1.height = 394;
             case 1:
-                viewHolder.images[0].setVisibility(View.VISIBLE);
-                ViewGroup.LayoutParams params2 = viewHolder.images[0].getLayoutParams();
+                images.get(0).setVisibility(View.VISIBLE);
+                ViewGroup.LayoutParams params2 = images.get(0).getLayoutParams();
                 params2.width = 394;
                 params2.height = 394;
                 break;
@@ -132,9 +135,9 @@ public class MomentAdapter extends ArrayAdapter {
         for (int i = 0;i < imagesList.size();i++){
             String multiImages = imagesList.get(i);
             if (imageCache.get(multiImages) != null) {
-                viewHolder.images[i].setImageBitmap(imageCache.get(multiImages));
+                images.get(i).setImageBitmap(imageCache.get(multiImages));
             } else {
-                loadImage(viewHolder.images[i],multiImages);
+                loadImage(images.get(i),multiImages);
             }
         }
 
@@ -154,7 +157,6 @@ public class MomentAdapter extends ArrayAdapter {
         ImageView image7;
         ImageView image8;
         ImageView image9;
-        ImageView [] images = {image1,image2,image3,image4,image5,image6,image7,image8,image9};
     }
 
     private void loadImage(ImageView img, String path)
